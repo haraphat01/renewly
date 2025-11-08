@@ -4,6 +4,9 @@ import { stripe } from '@/lib/stripe/config'
 import { createAdminClient } from '@/lib/supabase/admin'
 import Stripe from 'stripe'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   const body = await request.text()
   const headersList = await headers()
@@ -48,17 +51,24 @@ export async function POST(request: NextRequest) {
         
         const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription
 
-        // Access current_period_end with proper typing (now at item level)
-        const currentPeriodEnd = subscription.items?.data[0]?.current_period_end 
-          ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
-          : null
+        // Map Stripe status to our database status
+        let dbStatus: 'active' | 'canceled' | 'past_due' = 'active'
+        if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
+          dbStatus = 'canceled'
+        } else if (subscription.status === 'past_due') {
+          dbStatus = 'past_due'
+        } else if (subscription.status === 'active' || subscription.status === 'trialing') {
+          dbStatus = 'active'
+        }
 
         const subscriptionData = {
           plan: metadata.plan,
           stripe_subscription_id: subscriptionId,
           stripe_customer_id: session.customer as string,
-          status: subscription.status, // Use the full status to handle 'trialing', 'active', etc.
-          current_period_end: currentPeriodEnd,
+          status: dbStatus,
+          current_period_end: (subscription as any).current_period_end 
+            ? new Date((subscription as any).current_period_end * 1000).toISOString()
+            : null,
         }
 
         // Update or create subscription in database
@@ -69,17 +79,29 @@ export async function POST(request: NextRequest) {
           .single()
 
         if (existing) {
-          await supabase
+          const { error: updateError } = await supabase
             .from('subscriptions')
             .update(subscriptionData)
             .eq('user_id', metadata.user_id)
+          
+          if (updateError) {
+            console.error('Error updating subscription:', updateError)
+          } else {
+            console.log('Subscription updated successfully for user:', metadata.user_id)
+          }
         } else {
-          await supabase
+          const { error: insertError } = await supabase
             .from('subscriptions')
             .insert({
               user_id: metadata.user_id,
               ...subscriptionData,
             })
+          
+          if (insertError) {
+            console.error('Error inserting subscription:', insertError)
+          } else {
+            console.log('Subscription created successfully for user:', metadata.user_id)
+          }
         }
         break
       }
@@ -101,8 +123,8 @@ export async function POST(request: NextRequest) {
                         subscriptionObj.status === 'past_due' ? 'past_due' : 
                         subscriptionObj.status === 'trialing' ? 'trialing' : 'canceled'
 
-          const periodEnd = subscriptionObj.items?.data[0]?.current_period_end 
-            ? new Date(subscriptionObj.items.data[0].current_period_end * 1000).toISOString()
+          const periodEnd = (subscriptionObj as any).current_period_end 
+            ? new Date((subscriptionObj as any).current_period_end * 1000).toISOString()
             : null
 
           await supabase
@@ -118,22 +140,54 @@ export async function POST(request: NextRequest) {
 
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice
-        const subscriptionId = invoice.lines?.data[0]?.parent as string | null
+        const subscriptionId = (invoice as any).subscription as string | null
 
         if (subscriptionId) {
-          const { data: sub } = await supabase
+          const { data: sub, error: subError } = await supabase
             .from('subscriptions')
             .select('*')
             .eq('stripe_subscription_id', subscriptionId)
             .single()
 
-          if (sub) {
-            await supabase
+          if (subError) {
+            console.error('Error finding subscription for invoice:', subError)
+            // Try to get subscription from Stripe and create it
+            try {
+              const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription
+              const customerId = subscription.customer as string
+              
+              // Find user by customer ID
+              const { data: existingSub } = await supabase
+                .from('subscriptions')
+                .select('*')
+                .eq('stripe_customer_id', customerId)
+                .single()
+              
+              if (existingSub) {
+                await supabase
+                  .from('subscriptions')
+                  .update({
+                    status: 'active',
+                    current_period_end: (subscription as any).current_period_end 
+                      ? new Date((subscription as any).current_period_end * 1000).toISOString()
+                      : null,
+                  })
+                  .eq('id', existingSub.id)
+              }
+            } catch (err) {
+              console.error('Error retrieving subscription from Stripe:', err)
+            }
+          } else if (sub) {
+            const { error: updateError } = await supabase
               .from('subscriptions')
               .update({
                 status: 'active',
               })
               .eq('id', sub.id)
+            
+            if (updateError) {
+              console.error('Error updating subscription status:', updateError)
+            }
           }
         }
         break
@@ -141,7 +195,7 @@ export async function POST(request: NextRequest) {
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice
-        const subscriptionId = invoice.lines?.data[0]?.parent as string | null
+        const subscriptionId = (invoice as any).subscription as string | null
 
         if (subscriptionId) {
           const { data: sub } = await supabase
@@ -151,12 +205,16 @@ export async function POST(request: NextRequest) {
             .single()
 
           if (sub) {
-            await supabase
+            const { error: updateError } = await supabase
               .from('subscriptions')
               .update({
                 status: 'past_due',
               })
               .eq('id', sub.id)
+            
+            if (updateError) {
+              console.error('Error updating subscription to past_due:', updateError)
+            }
           }
         }
         break
