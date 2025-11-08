@@ -4,6 +4,7 @@ export default function SignUpPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <SignUp 
+        afterSignUpUrl="/dashboard"
         appearance={{
           elements: {
             rootBox: "mx-auto",

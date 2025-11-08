@@ -93,7 +93,7 @@ export default function DashboardLayout({
           <div className="p-6 border-b border-gray-200 lg:border-b-0">
             <Link href="/dashboard" className="flex items-center mb-8" onClick={() => setSidebarOpen(false)}>
               <FileText className="h-8 w-8 text-purple-600" />
-              <span className="ml-2 text-2xl font-bold text-gray-900">Renewly</span>
+              <span className="ml-2 text-2xl font-bold text-gray-900">Dealping</span>
             </Link>
             
             {/* Upgrade Banner */}

@@ -1,6 +1,6 @@
 # Stripe Integration Setup Guide
 
-This guide will help you set up Stripe for subscription payments in Renewly.
+This guide will help you set up Stripe for subscription payments in Dealping.
 
 ## Step 1: Create Stripe Account
 

@@ -1,6 +1,6 @@
-# Renewly Setup Guide
+# Dealping Setup Guide
 
-This guide will walk you through setting up Renewly from scratch.
+This guide will walk you through setting up Dealping from scratch.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ Before you begin, make sure you have:
 ### 1. Clone and Install
 
 ```bash
-cd renewly
+cd Dealping
 npm install
 ```
 
@@ -187,5 +187,5 @@ If you encounter issues, check:
 3. Browser console for errors
 4. Server logs for API errors
 
-For more help, open an issue on GitHub or contact support@renewly.app
+For more help, open an issue on GitHub or contact support@Dealping.app
 

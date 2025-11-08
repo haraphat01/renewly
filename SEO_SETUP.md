@@ -39,7 +39,7 @@ This document outlines the SEO optimizations and social media integrations imple
 - **og-image.png**: 1200x630px for social sharing
 
 ### 5. Branding Updates
-- Changed app name from "Renewly" to "Dealping" across all files
+- Changed app name from "Dealping" to "Dealping" across all files
 - Updated email templates
 - Updated documentation
 - Updated package.json

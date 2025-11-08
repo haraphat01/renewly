@@ -4,14 +4,15 @@ import { createClient } from '@/lib/supabase/server'
 import { formatCurrency, formatDate } from '@/lib/utils/format'
 import { calculateContractStatus } from '@/lib/utils/contract-status'
 import Link from 'next/link'
-import { ArrowLeft, Edit, Trash2, Calendar, DollarSign, FileText } from 'lucide-react'
+import { ArrowLeft, Edit, Calendar, DollarSign, FileText } from 'lucide-react'
+import DeleteButton from './DeleteButton'
 
 export const dynamic = 'force-dynamic'
 
 export default async function ContractDetailPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
   const { userId } = await auth()
 
@@ -19,6 +20,7 @@ export default async function ContractDetailPage({
     redirect('/sign-in')
   }
 
+  const { id } = await params
   const supabase = await createClient()
 
   // Get user
@@ -36,7 +38,7 @@ export default async function ContractDetailPage({
   const { data: contract } = await supabase
     .from('contracts')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('user_id', user.id)
     .single()
 
@@ -84,12 +86,13 @@ export default async function ContractDetailPage({
               <p className="text-sm sm:text-base text-gray-600 truncate">Client: {contract.client_name}</p>
             </div>
             <div className="flex gap-2">
-              <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+              <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors" title="Edit contract">
                 <Edit className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
-              <button className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
-                <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
+              <DeleteButton 
+                contractId={contract.id} 
+                contractName={contract.contract_title || contract.client_name}
+              />
             </div>
           </div>
         </div>

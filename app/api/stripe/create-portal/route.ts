@@ -36,15 +36,31 @@ export async function POST(request: NextRequest) {
     }
 
     // Create portal session
-    const session = await stripe.billingPortal.sessions.create({
-      customer: subscription.stripe_customer_id,
-      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/settings`,
-    })
+    try {
+      const session = await stripe.billingPortal.sessions.create({
+        customer: subscription.stripe_customer_id,
+        return_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/settings`,
+      })
 
-    return NextResponse.json({ url: session.url })
+      return NextResponse.json({ url: session.url })
+    } catch (portalError: any) {
+      // Check if it's a configuration error
+      if (portalError?.code === 'resource_missing' || portalError?.message?.includes('configuration')) {
+        console.error('Stripe Customer Portal not configured:', portalError)
+        return NextResponse.json({ 
+          error: 'Customer Portal not configured',
+          message: 'Please configure the Stripe Customer Portal in your Stripe Dashboard. Go to Settings → Billing → Customer Portal and save your configuration.',
+          setupUrl: 'https://dashboard.stripe.com/settings/billing/portal'
+        }, { status: 400 })
+      }
+      throw portalError
+    }
   } catch (error: any) {
     console.error('Portal session error:', error)
-    return NextResponse.json({ error: error.message || 'Failed to create portal session' }, { status: 500 })
+    return NextResponse.json({ 
+      error: error.error || error.message || 'Failed to create portal session',
+      message: error.message || 'Please try again or contact support if the issue persists.'
+    }, { status: 500 })
   }
 }
 

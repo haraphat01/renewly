@@ -1,4 +1,4 @@
-# Renewly - Project Summary
+# Dealping - Project Summary
 
 ## ✅ Completed Features
 
@@ -31,7 +31,7 @@
 ## 📁 Project Structure
 
 ```
-renewly/
+Dealping/
 ├── app/
 │   ├── (dashboard)/              # Protected dashboard routes
 │   │   └── dashboard/

@@ -221,4 +221,4 @@ MIT License - see LICENSE file for details
 ## Support
 
 For support, email support@dealping.app or open an issue on GitHub.
-# renewly
+# Dealping
