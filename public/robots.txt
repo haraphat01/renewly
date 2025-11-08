@@ -1,0 +1,13 @@
+# Allow all crawlers including ChatGPT and other LLMs
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://dealping.app/sitemap.xml
+
+# Disallow private/admin routes
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /sign-in
+Disallow: /sign-up
+

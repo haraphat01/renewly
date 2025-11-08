@@ -1,0 +1,104 @@
+import OpenAI from 'openai'
+import { z } from 'zod'
+
+function getOpenAI() {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY is not configured')
+  }
+  return new OpenAI({
+    apiKey,
+  })
+}
+
+const ContractSchema = z.object({
+  client_name: z.string().describe('The name of the client or company'),
+  contract_title: z.string().optional().nullable().describe('Title or description of the contract'),
+  start_date: z.string().describe('Contract start date in YYYY-MM-DD format'),
+  end_date: z.string().describe('Contract end date in YYYY-MM-DD format'),
+  renewal_date: z.string().optional().nullable().describe('Contract renewal date in YYYY-MM-DD format if mentioned'),
+  rate: z.number().optional().describe('The rate or amount (numeric value only). Use 0 if not specified.'),
+  rate_currency: z.string().default('USD').describe('Currency code (USD, EUR, GBP, etc.)'),
+  payment_terms: z.string().optional().nullable().describe('Payment terms (e.g., Net 30, Due on receipt)'),
+  payment_frequency: z.enum(['one-time', 'monthly', 'quarterly', 'yearly']).default('monthly').describe('How often payment is made'),
+  notes: z.string().optional().nullable().describe('Any additional important notes from the contract'),
+})
+
+export type ExtractedContractData = z.infer<typeof ContractSchema>
+
+export async function extractContractData(text: string): Promise<ExtractedContractData> {
+  const systemPrompt = `You are an expert at extracting contract information from text. Extract the following information:
+- Client name
+- Contract title/description
+- Start date (format as YYYY-MM-DD)
+- End date (format as YYYY-MM-DD)
+- Renewal date if mentioned (format as YYYY-MM-DD)
+- Rate/amount (numeric value only)
+- Currency (default to USD if not specified)
+- Payment terms
+- Payment frequency (one-time, monthly, quarterly, yearly)
+- Any important notes
+
+If a date is not explicitly stated, use reasonable defaults or return null. For rates, extract the numeric value only. If no rate is found, use 0. Return the data as JSON matching this schema. Always return valid JSON with all required fields.`
+
+  try {
+    const openai = getOpenAI()
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Extract contract information from this text:\n\n${text}` },
+      ],
+      response_format: { type: 'json_object' },
+      temperature: 0,
+    })
+
+    const content = completion.choices[0]?.message?.content
+    if (!content) {
+      throw new Error('No response from OpenAI')
+    }
+
+    const parsed = JSON.parse(content)
+    
+    // Handle null/undefined values before parsing
+    const cleaned = {
+      ...parsed,
+      renewal_date: parsed.renewal_date || null,
+      rate: parsed.rate !== undefined && parsed.rate !== null ? Number(parsed.rate) : 0,
+      contract_title: parsed.contract_title || null,
+      payment_terms: parsed.payment_terms || null,
+      notes: parsed.notes || null,
+    }
+    
+    const result = ContractSchema.parse(cleaned)
+    
+    // Ensure rate is always a number
+    if (result.rate === undefined || result.rate === null) {
+      result.rate = 0
+    }
+    
+    return result
+  } catch (error) {
+    console.error('Error extracting contract data:', error)
+    if (error instanceof z.ZodError) {
+      const zodError = error as z.ZodError<any>
+      const errorMessages = zodError.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')
+      console.error('Validation errors:', JSON.stringify(zodError.issues, null, 2))
+      throw new Error(`Failed to extract contract data: ${errorMessages}`)
+    }
+    throw new Error('Failed to extract contract data')
+  }
+}
+
+export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
+  const pdf = require('pdf-parse')
+  const data = await pdf(buffer)
+  return data.text
+}
+
+export async function extractTextFromDOCX(buffer: Buffer): Promise<string> {
+  const mammoth = require('mammoth')
+  const result = await mammoth.extractRawText({ buffer })
+  return result.value
+}
+
