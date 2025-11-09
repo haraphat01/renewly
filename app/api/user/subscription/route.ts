@@ -1,27 +1,23 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser, getOrCreateUserProfile } from '@/lib/supabase/auth'
 
 export async function GET() {
   try {
-    const { userId } = await auth()
+    const authUser = await getCurrentUser()
 
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!authUser) {
+      return NextResponse.json({ plan: 'free' })
     }
 
     const supabase = await createClient()
 
-    // Get user
-    const { data: user } = await supabase
-      .from('users')
-      .select('*')
-      .eq('clerk_id', userId)
-      .single()
-
-    if (!user) {
-      return NextResponse.json({ plan: 'free' })
-    }
+    // Get or create user profile
+    const user = await getOrCreateUserProfile(
+      authUser.id,
+      authUser.email || '',
+      authUser.user_metadata?.full_name
+    )
 
     // Get subscription
     const { data: subscription } = await supabase

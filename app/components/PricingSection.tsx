@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { Check } from 'lucide-react'
 
 export default function PricingSection() {
@@ -83,22 +82,12 @@ export default function PricingSection() {
               Analytics
             </li>
           </ul>
-          <SignedOut>
-            <Link
-              href="/sign-up"
-              className="w-full border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors inline-block text-center"
-            >
-              Get Started
-            </Link>
-          </SignedOut>
-          <SignedIn>
-            <Link
-              href="/dashboard"
-              className="w-full border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors inline-block text-center"
-            >
-              Go to Dashboard
-            </Link>
-          </SignedIn>
+          <Link
+            href="/sign-up"
+            className="w-full border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors inline-block text-center"
+          >
+            Get Started
+          </Link>
         </div>
 
         {/* Pro Plan */}
@@ -139,22 +128,12 @@ export default function PricingSection() {
               Priority support
             </li>
           </ul>
-          <SignedOut>
-            <Link
-              href="/dashboard/upgrade"
-              className="w-full bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block text-center"
-            >
-              Start Pro Trial
-            </Link>
-          </SignedOut>
-          <SignedIn>
-            <Link
-              href="/dashboard/upgrade"
-              className="w-full bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block text-center"
-            >
-              Upgrade to Pro
-            </Link>
-          </SignedIn>
+          <Link
+            href="/dashboard/upgrade"
+            className="w-full bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block text-center"
+          >
+            Start Pro Trial
+          </Link>
         </div>
       </div>
     </div>

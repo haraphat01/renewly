@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useUser } from '@clerk/nextjs'
-import { UserButton } from '@clerk/nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { FileText, LayoutDashboard, Upload, BarChart3, Settings, Menu, X, Crown, Sparkles } from 'lucide-react'
+import UserProfileButton from './UserProfileButton'
 
 export default function DashboardLayout({
   children,
@@ -14,11 +14,13 @@ export default function DashboardLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [plan, setPlan] = useState<'free' | 'pro'>('free')
+  const [isLoaded, setIsLoaded] = useState(false)
   const pathname = usePathname()
-  const { isLoaded } = useUser()
 
   useEffect(() => {
-    if (isLoaded) {
+    const supabase = createClient()
+    supabase.auth.getUser().then(() => {
+      setIsLoaded(true)
       // Fetch user subscription plan
       fetch('/api/user/subscription')
         .then(res => res.json())
@@ -28,8 +30,8 @@ export default function DashboardLayout({
           }
         })
         .catch(() => {})
-    }
-  }, [isLoaded])
+    })
+  }, [])
 
   const navItems = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -146,7 +148,7 @@ export default function DashboardLayout({
                 </div>
               </div>
             </div>
-            <UserButton afterSignOutUrl="/" />
+            <UserProfileButton />
           </div>
         </div>
       </aside>

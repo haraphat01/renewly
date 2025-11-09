@@ -1,16 +1,11 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { requireAuth, getOrCreateUserProfile } from '@/lib/supabase/auth'
 import { stripe, STRIPE_PLANS } from '@/lib/stripe/config'
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = await auth()
-
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
+    const authUser = await requireAuth()
     const body = await request.json()
     const { plan, interval = 'month' } = body
 
@@ -27,28 +22,12 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient()
 
-    // Get or create user
-    let { data: user } = await supabase
-      .from('users')
-      .select('*')
-      .eq('clerk_id', userId)
-      .single()
-
-    if (!user) {
-      const { data: newUser, error: userError } = await supabase
-        .from('users')
-        .insert({
-          clerk_id: userId,
-          email: '',
-        })
-        .select()
-        .single()
-
-      if (userError) {
-        return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
-      }
-      user = newUser
-    }
+    // Get or create user profile
+    const user = await getOrCreateUserProfile(
+      authUser.id,
+      authUser.email || '',
+      authUser.user_metadata?.full_name
+    )
 
     // Get existing subscription to check for customer ID
     const { data: existingSubscription } = await supabase
@@ -62,18 +41,12 @@ export async function POST(request: NextRequest) {
     // Create Stripe customer if doesn't exist
     if (!customerId) {
       const customer = await stripe.customers.create({
+        email: authUser.email,
         metadata: {
-          clerk_id: userId,
           user_id: user.id,
         },
       })
       customerId = customer.id
-
-      // Save customer ID to user record if needed
-      await supabase
-        .from('users')
-        .update({})
-        .eq('id', user.id)
     }
 
     // Create checkout session
@@ -91,7 +64,6 @@ export async function POST(request: NextRequest) {
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/settings?canceled=true`,
       metadata: {
         user_id: user.id,
-        clerk_id: userId,
         plan,
         interval,
       },

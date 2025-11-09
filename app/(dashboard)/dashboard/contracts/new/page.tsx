@@ -179,7 +179,7 @@ export default function NewContractPage() {
                   required
                   value={formData.client_name}
                   onChange={(e) => setFormData({ ...formData, client_name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
               <div>
@@ -190,7 +190,7 @@ export default function NewContractPage() {
                   type="text"
                   value={formData.contract_title}
                   onChange={(e) => setFormData({ ...formData, contract_title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function NewContractPage() {
                   required
                   value={formData.start_date}
                   onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
               <div>
@@ -217,7 +217,7 @@ export default function NewContractPage() {
                   required
                   value={formData.end_date}
                   onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
               <div>
@@ -228,7 +228,7 @@ export default function NewContractPage() {
                   type="date"
                   value={formData.renewal_date}
                   onChange={(e) => setFormData({ ...formData, renewal_date: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 />
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function NewContractPage() {
                   <select
                     value={formData.rate_currency}
                     onChange={(e) => setFormData({ ...formData, rate_currency: e.target.value })}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                   >
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
@@ -256,7 +256,7 @@ export default function NewContractPage() {
                     step="0.01"
                     value={formData.rate}
                     onChange={(e) => setFormData({ ...formData, rate: e.target.value })}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                     placeholder="0.00"
                   />
                 </div>
@@ -269,7 +269,7 @@ export default function NewContractPage() {
                   required
                   value={formData.payment_frequency}
                   onChange={(e) => setFormData({ ...formData, payment_frequency: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 >
                   <option value="one-time">One-time</option>
                   <option value="monthly">Monthly</option>
@@ -300,7 +300,7 @@ export default function NewContractPage() {
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
                 placeholder="Any additional notes about this contract..."
               />
             </div>

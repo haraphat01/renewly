@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Check, Upload, Bell, TrendingUp, FileText } from "lucide-react";
 import PricingSection from "./components/PricingSection";
+import AuthButtons from "./components/AuthButtons";
 
 export default function Home() {
   return (
@@ -14,22 +14,7 @@ export default function Home() {
               <FileText className="h-8 w-8 text-purple-600" />
               <span className="ml-2 text-2xl font-bold text-gray-900">Dealping</span>
             </div>
-            <div className="flex items-center gap-4">
-              <SignedOut>
-                <Link href="/sign-in" className="text-gray-700 hover:text-gray-900 px-4 py-2">
-                  Sign In
-                </Link>
-                <Link href="/sign-up" className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                  Get Started
-                </Link>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/dashboard" className="text-gray-700 hover:text-gray-900 px-4 py-2">
-                  Dashboard
-                </Link>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-            </div>
+            <AuthButtons />
           </div>
         </div>
       </nav>
@@ -44,16 +29,9 @@ export default function Home() {
             AI-powered contract reminders for freelancers. Track contracts, get automated reminders, and protect your income.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <SignedOut>
-              <Link href="/sign-up" className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg inline-block text-center">
-                Start Free Trial
-              </Link>
-            </SignedOut>
-            <SignedIn>
-              <Link href="/dashboard" className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg inline-block">
-                Go to Dashboard
-              </Link>
-            </SignedIn>
+            <Link href="/sign-up" className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg inline-block text-center">
+              Start Free Trial
+            </Link>
             <a href="#features" className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-gray-400 transition-colors">
               Learn More
             </a>
@@ -119,16 +97,9 @@ export default function Home() {
         <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl shadow-xl p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-4">Ready to protect your freelance income?</h2>
           <p className="text-xl mb-8 opacity-90">Join thousands of freelancers who never miss a renewal.</p>
-          <SignedOut>
-            <Link href="/sign-up" className="bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block">
-              Start Free Trial
-            </Link>
-          </SignedOut>
-          <SignedIn>
-            <Link href="/dashboard" className="bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block">
-              Go to Dashboard
-            </Link>
-          </SignedIn>
+          <Link href="/sign-up" className="bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block">
+            Start Free Trial
+          </Link>
         </div>
       </main>
 

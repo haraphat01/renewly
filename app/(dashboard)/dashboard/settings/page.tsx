@@ -1,33 +1,24 @@
 import { redirect } from 'next/navigation'
-import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@/lib/supabase/server'
-import { UserButton } from '@clerk/nextjs'
+import { requireAuth, getOrCreateUserProfile } from '@/lib/supabase/auth'
 import { Bell, CreditCard, User } from 'lucide-react'
 import ManageSubscriptionButton from './ManageSubscriptionButton'
 import SuccessMessage from './SuccessMessage'
 import Link from 'next/link'
+import UserProfileButton from './UserProfileButton'
 
 export const dynamic = 'force-dynamic'
 
 export default async function SettingsPage() {
-  const { userId } = await auth()
-
-  if (!userId) {
-    redirect('/sign-in')
-  }
-
+  const authUser = await requireAuth()
   const supabase = await createClient()
 
-  // Get user
-  const { data: user } = await supabase
-    .from('users')
-    .select('*')
-    .eq('clerk_id', userId)
-    .single()
-
-  if (!user) {
-    redirect('/dashboard')
-  }
+  // Get or create user profile
+  const user = await getOrCreateUserProfile(
+    authUser.id,
+    authUser.email || '',
+    authUser.user_metadata?.full_name
+  )
 
   // Get subscription
   const { data: subscription } = await supabase
@@ -64,7 +55,7 @@ export default async function SettingsPage() {
             <input
               type="text"
               defaultValue={user.full_name || ''}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
             />
           </div>
           <div className="mb-4">
@@ -77,7 +68,7 @@ export default async function SettingsPage() {
               disabled
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
             />
-            <p className="text-xs text-gray-500 mt-1">Email is managed by Clerk</p>
+            <p className="text-xs text-gray-500 mt-1">Email is managed by your account</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -86,7 +77,7 @@ export default async function SettingsPage() {
             <input
               type="tel"
               defaultValue={user.phone_number || ''}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 bg-white"
               placeholder="+1 (555) 000-0000"
             />
           </div>

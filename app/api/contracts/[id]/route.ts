@@ -1,32 +1,23 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAuth, getOrCreateUserProfile } from '@/lib/supabase/auth'
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = await auth()
-
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
+    const authUser = await requireAuth()
     const { id } = await params
     const supabase = await createClient()
 
-    // Get user
-    const { data: user } = await supabase
-      .from('users')
-      .select('*')
-      .eq('clerk_id', userId)
-      .single()
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
-    }
+    // Get or create user profile
+    const user = await getOrCreateUserProfile(
+      authUser.id,
+      authUser.email || '',
+      authUser.user_metadata?.full_name
+    )
 
     // Get contract to verify ownership and get file URL
     const { data: contract, error: contractError } = await supabase

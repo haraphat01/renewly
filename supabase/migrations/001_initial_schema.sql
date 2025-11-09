@@ -1,10 +1,9 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Users table (extends Clerk user data)
+-- Users table (extends Supabase auth.users)
 CREATE TABLE IF NOT EXISTS users (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  clerk_id TEXT UNIQUE NOT NULL,
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT,
   phone_number TEXT,
@@ -90,7 +89,7 @@ CREATE TRIGGER update_contracts_updated_at BEFORE UPDATE ON contracts
 CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON subscriptions
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Note: RLS is disabled since we're using Clerk for authentication
--- Authorization is handled at the application level by verifying clerk_id
--- If you want to enable RLS, you'll need to set up Supabase Auth or use service role key
+-- Note: RLS can be enabled for additional security
+-- Authorization is handled at the application level by verifying user_id
+-- The trigger in migration 002 will automatically create user profiles on signup
 

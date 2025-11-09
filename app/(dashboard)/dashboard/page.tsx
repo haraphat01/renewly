@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
-import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@/lib/supabase/server'
+import { requireAuth, getOrCreateUserProfile } from '@/lib/supabase/auth'
 import Link from 'next/link'
 import { Plus, AlertCircle, CheckCircle2, Clock, DollarSign, FileText } from 'lucide-react'
 import { formatCurrency, formatDate } from '@/lib/utils/format'
@@ -9,33 +9,15 @@ import { calculateContractStatus } from '@/lib/utils/contract-status'
 export const dynamic = 'force-dynamic'
 
 export default async function DashboardPage() {
-  const { userId } = await auth()
-
-  if (!userId) {
-    redirect('/sign-in')
-  }
-
+  const authUser = await requireAuth()
   const supabase = await createClient()
 
-  // Get or create user in our database
-  let { data: user } = await supabase
-    .from('users')
-    .select('*')
-    .eq('clerk_id', userId)
-    .single()
-
-  if (!user) {
-    // Create user if doesn't exist
-    const { data: newUser } = await supabase
-      .from('users')
-      .insert({
-        clerk_id: userId,
-        email: '', // Will be updated from Clerk
-      })
-      .select()
-      .single()
-    user = newUser
-  }
+  // Get or create user profile
+  const user = await getOrCreateUserProfile(
+    authUser.id,
+    authUser.email || '',
+    authUser.user_metadata?.full_name
+  )
 
   // Get contracts
   const { data: contracts } = await supabase

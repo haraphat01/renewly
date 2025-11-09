@@ -1,43 +1,22 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAuth, getOrCreateUserProfile } from '@/lib/supabase/auth'
 import { extractContractData, extractTextFromPDF, extractTextFromDOCX } from '@/lib/ai/extract-contract'
 import { calculateContractStatus, shouldCreateReminders } from '@/lib/utils/contract-status'
 import { canCreateContract } from '@/lib/utils/subscription'
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = await auth()
-
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
+    const authUser = await requireAuth()
     const supabase = await createClient()
 
-    // Get or create user
-    let { data: user } = await supabase
-      .from('users')
-      .select('*')
-      .eq('clerk_id', userId)
-      .single()
-
-    if (!user) {
-      const { data: newUser, error: userError } = await supabase
-        .from('users')
-        .insert({
-          clerk_id: userId,
-          email: '',
-        })
-        .select()
-        .single()
-
-      if (userError) {
-        return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
-      }
-      user = newUser
-    }
+    // Get or create user profile
+    const user = await getOrCreateUserProfile(
+      authUser.id,
+      authUser.email || '',
+      authUser.user_metadata?.full_name
+    )
 
     // Check subscription limits
     const canCreate = await canCreateContract(user.id)

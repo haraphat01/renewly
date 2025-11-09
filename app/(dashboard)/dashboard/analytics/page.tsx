@@ -1,30 +1,21 @@
 import { redirect } from 'next/navigation'
-import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@/lib/supabase/server'
+import { requireAuth, getOrCreateUserProfile } from '@/lib/supabase/auth'
 import { formatCurrency, formatDate } from '@/lib/utils/format'
 import { TrendingUp, DollarSign, Calendar, Users } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AnalyticsPage() {
-  const { userId } = await auth()
-
-  if (!userId) {
-    redirect('/sign-in')
-  }
-
+  const authUser = await requireAuth()
   const supabase = await createClient()
 
-  // Get user
-  const { data: user } = await supabase
-    .from('users')
-    .select('*')
-    .eq('clerk_id', userId)
-    .single()
-
-  if (!user) {
-    redirect('/dashboard')
-  }
+  // Get or create user profile
+  const user = await getOrCreateUserProfile(
+    authUser.id,
+    authUser.email || '',
+    authUser.user_metadata?.full_name
+  )
 
   // Get all contracts
   const { data: contracts } = await supabase
