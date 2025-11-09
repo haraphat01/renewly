@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { SignInButton, SignUpButton, SignedIn, SignedOut } from '@clerk/nextjs'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { Check } from 'lucide-react'
 
 export default function PricingSection() {
@@ -84,11 +84,12 @@ export default function PricingSection() {
             </li>
           </ul>
           <SignedOut>
-            <SignUpButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-              <button className="w-full border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors">
-                Get Started
-              </button>
-            </SignUpButton>
+            <Link
+              href="/sign-up"
+              className="w-full border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors inline-block text-center"
+            >
+              Get Started
+            </Link>
           </SignedOut>
           <SignedIn>
             <Link

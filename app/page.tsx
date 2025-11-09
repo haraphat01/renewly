@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Check, Upload, Bell, TrendingUp, FileText } from "lucide-react";
 import PricingSection from "./components/PricingSection";
 
@@ -16,14 +16,12 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-4">
               <SignedOut>
-                <SignInButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-                  <button className="text-gray-700 hover:text-gray-900 px-4 py-2">Sign In</button>
-                </SignInButton>
-                <SignUpButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-                  <button className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                    Get Started
-                  </button>
-                </SignUpButton>
+                <Link href="/sign-in" className="text-gray-700 hover:text-gray-900 px-4 py-2">
+                  Sign In
+                </Link>
+                <Link href="/sign-up" className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                  Get Started
+                </Link>
               </SignedOut>
               <SignedIn>
                 <Link href="/dashboard" className="text-gray-700 hover:text-gray-900 px-4 py-2">
@@ -47,11 +45,9 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <SignedOut>
-              <SignUpButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-                <button className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg">
-                  Start Free Trial
-                </button>
-              </SignUpButton>
+              <Link href="/sign-up" className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg inline-block text-center">
+                Start Free Trial
+              </Link>
             </SignedOut>
             <SignedIn>
               <Link href="/dashboard" className="bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition-colors shadow-lg inline-block">
@@ -124,11 +120,9 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-4">Ready to protect your freelance income?</h2>
           <p className="text-xl mb-8 opacity-90">Join thousands of freelancers who never miss a renewal.</p>
           <SignedOut>
-            <SignUpButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-              <button className="bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg">
-                Start Free Trial
-              </button>
-            </SignUpButton>
+            <Link href="/sign-up" className="bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block">
+              Start Free Trial
+            </Link>
           </SignedOut>
           <SignedIn>
             <Link href="/dashboard" className="bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg inline-block">
@@ -146,7 +140,7 @@ export default function Home() {
               <FileText className="h-6 w-6 text-purple-600" />
               <span className="ml-2 text-xl font-bold text-gray-900">Dealping</span>
             </div>
-            <p className="text-gray-600 text-sm">© 2024 Dealping. All rights reserved.</p>
+            <p className="text-gray-600 text-sm">© 2025 Dealping. All rights reserved.</p>
           </div>
         </div>
       </footer>
