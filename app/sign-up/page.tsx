@@ -37,9 +37,11 @@ export default function SignUpPage() {
         return
       }
 
+      // Wait a moment for session to be fully established
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
       // Redirect to dashboard
-      router.push('/dashboard')
-      router.refresh()
+      window.location.href = '/dashboard'
     } catch (err: any) {
       setError(err.message || 'An error occurred')
       setLoading(false)

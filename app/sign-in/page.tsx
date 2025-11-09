@@ -21,7 +21,7 @@ function SignInForm() {
 
     try {
       const supabase = createClient()
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
@@ -32,10 +32,14 @@ function SignInForm() {
         return
       }
 
-      // Redirect to dashboard or the page they came from
-      const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
-      router.push(redirectedFrom)
-      router.refresh()
+      if (data.user) {
+        // Wait a moment for session to be fully established
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
+        // Redirect to dashboard or the page they came from
+        const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
+        window.location.href = redirectedFrom
+      }
     } catch (err: any) {
       setError(err.message || 'An error occurred')
       setLoading(false)
