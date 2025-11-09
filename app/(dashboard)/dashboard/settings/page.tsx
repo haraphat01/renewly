@@ -20,15 +20,31 @@ export default async function SettingsPage() {
     authUser.user_metadata?.full_name
   )
 
-  // Get subscription
-  const { data: subscription } = await supabase
+  // Get subscription (get the most recent one, even if not active)
+  const { data: subscriptions } = await supabase
     .from('subscriptions')
     .select('*')
     .eq('user_id', user.id)
-    .eq('status', 'active')
-    .single()
+    .order('created_at', { ascending: false })
+    .limit(1)
 
+  const subscription = subscriptions && subscriptions.length > 0 ? subscriptions[0] : null
   const plan = subscription?.plan || 'free'
+  
+  // Format subscription end date
+  const formatSubscriptionEndDate = (dateString: string | null) => {
+    if (!dateString) return null
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    })
+  }
+  
+  const subscriptionEndDate = subscription?.current_period_end 
+    ? formatSubscriptionEndDate(subscription.current_period_end)
+    : null
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -137,30 +153,60 @@ export default async function SettingsPage() {
         </div>
         <div className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 capitalize">{plan} Plan</h3>
-              <p className="text-xs sm:text-sm text-gray-600 mt-1">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 capitalize">{plan} Plan</h3>
+                {subscription?.status === 'active' && (
+                  <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                    Active
+                  </span>
+                )}
+                {subscription?.status === 'canceled' && (
+                  <span className="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full">
+                    Canceled
+                  </span>
+                )}
+                {subscription?.status === 'past_due' && (
+                  <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-medium rounded-full">
+                    Past Due
+                  </span>
+                )}
+              </div>
+              <p className="text-xs sm:text-sm text-gray-600 mb-2">
                 {plan === 'free' && '1 active contract, email reminders only'}
                 {plan === 'pro' && 'Unlimited contracts, email + SMS, analytics'}
               </p>
+              {subscriptionEndDate && subscription?.status === 'active' && (
+                <div className="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-100">
+                  <p className="text-sm font-medium text-purple-900 mb-1">Current Subscription Period</p>
+                  <p className="text-sm text-purple-700">
+                    Your subscription ends on <span className="font-semibold">{subscriptionEndDate}</span>
+                  </p>
+                </div>
+              )}
+              {subscriptionEndDate && subscription?.status === 'canceled' && (
+                <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="text-sm font-medium text-gray-900 mb-1">Subscription Canceled</p>
+                  <p className="text-sm text-gray-600">
+                    Access will continue until <span className="font-semibold">{subscriptionEndDate}</span>
+                  </p>
+                </div>
+              )}
             </div>
-            {plan === 'free' && (
-              <Link
-                href="/dashboard/upgrade"
-                className="bg-purple-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base whitespace-nowrap inline-block text-center"
-              >
-                Upgrade to Pro
-              </Link>
-            )}
-            {plan !== 'free' && (
-              <ManageSubscriptionButton />
-            )}
+            <div className="flex flex-col gap-2 sm:items-end">
+              {plan === 'free' && (
+                <Link
+                  href="/dashboard/upgrade"
+                  className="bg-purple-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm sm:text-base whitespace-nowrap inline-block text-center"
+                >
+                  Upgrade to Pro
+                </Link>
+              )}
+              {plan !== 'free' && (
+                <ManageSubscriptionButton />
+              )}
+            </div>
           </div>
-          {subscription?.current_period_end && (
-            <p className="text-sm text-gray-600">
-              Current period ends: {new Date(subscription.current_period_end).toLocaleDateString()}
-            </p>
-          )}
         </div>
       </div>
 

@@ -44,6 +44,27 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Video Demo Section */}
+          <div className="mb-20">
+            <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-8 lg:p-12">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">See Dealping in Action</h2>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  Watch how easy it is to manage your contracts and never miss a renewal
+                </p>
+              </div>
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full rounded-lg"
+                  src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                  title="Dealping Demo Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+
         {/* Who It's For */}
         <div className="bg-white rounded-2xl shadow-lg p-8 sm:p-12 mb-20">
           <div className="text-center mb-10">
