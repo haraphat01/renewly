@@ -43,16 +43,23 @@ export async function canCreateContract(userId: string): Promise<{ allowed: bool
   }
 
   const supabase = await createClient()
-  const { count } = await supabase
+  
+  // For free plan, count ALL contracts (not just active ones)
+  // Free users are limited to 1 contract total
+  const { count, error } = await supabase
     .from('contracts')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
-    .in('status', ['active', 'ending_soon'])
+
+  if (error) {
+    console.error('Error counting contracts:', error)
+    return { allowed: false, reason: 'Error checking contract limit' }
+  }
 
   if ((count || 0) >= limits.maxContracts) {
     return {
       allowed: false,
-      reason: `Free plan allows only ${limits.maxContracts} active contract. Upgrade to Pro for unlimited contracts.`,
+      reason: `Free plan allows only ${limits.maxContracts} contract. Upgrade to Pro for unlimited contracts.`,
     }
   }
 
