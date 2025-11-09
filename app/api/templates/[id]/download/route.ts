@@ -426,6 +426,818 @@ const templateContent: Record<string, any> = {
       },
     ],
   },
+
+  'photography': {
+    title: 'Photography Services Contract',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Photography Services Contract is entered into on [DATE] between:',
+          'Client: [CLIENT NAME]',
+          'Photographer: [YOUR NAME]',
+        ],
+      },
+      {
+        heading: '2. Photography Services',
+        content: [
+          'The Photographer agrees to provide the following services:',
+          '- Event Type: [WEDDING / CORPORATE / PORTRAIT / PRODUCT]',
+          '- Date and Time: [DATE] from [TIME] to [TIME]',
+          '- Location: [VENUE ADDRESS]',
+          '- Number of Photos: Approximately [NUMBER] edited images',
+          '- Delivery Format: [DIGITAL / PRINT / BOTH]',
+        ],
+      },
+      {
+        heading: '3. Payment Terms',
+        content: [
+          'Total Fee: $[AMOUNT]',
+          'Deposit: $[AMOUNT] due upon signing (non-refundable)',
+          'Balance: $[AMOUNT] due [BEFORE EVENT / UPON DELIVERY]',
+          'Additional Services: [PRINTS / ALBUMS / EXTRA HOURS] at $[RATE]',
+        ],
+      },
+      {
+        heading: '4. Image Delivery and Usage Rights',
+        content: [
+          'Final images will be delivered within [NUMBER] weeks of the event.',
+          'Client receives personal usage rights for all delivered images.',
+          'Photographer retains copyright and may use images for portfolio and marketing.',
+          'Commercial usage requires separate licensing agreement.',
+        ],
+      },
+      {
+        heading: '5. Cancellation and Rescheduling',
+        content: [
+          'Cancellation more than [NUMBER] days before event: Deposit forfeited.',
+          'Cancellation less than [NUMBER] days: Full fee due.',
+          'Rescheduling: Subject to availability, may incur additional fees.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Client Signature: ____________________________   Date: ___________',
+          'Photographer Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'video-production': {
+    title: 'Video Production Contract',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Video Production Agreement is entered into on [DATE] between:',
+          'Client: [CLIENT NAME]',
+          'Videographer: [YOUR NAME]',
+        ],
+      },
+      {
+        heading: '2. Project Scope',
+        content: [
+          'The Videographer agrees to produce the following:',
+          '- Video Type: [PROMOTIONAL / EVENT / DOCUMENTARY / COMMERCIAL]',
+          '- Duration: Approximately [LENGTH] minutes',
+          '- Shoot Date(s): [DATE(S)]',
+          '- Location(s): [VENUE(S)]',
+          '- Deliverables: [FINAL VIDEO / RAW FOOTAGE / BOTH]',
+        ],
+      },
+      {
+        heading: '3. Payment Terms',
+        content: [
+          'Total Project Fee: $[AMOUNT]',
+          'Payment Schedule:',
+          '- 50% deposit: $[AMOUNT] upon signing',
+          '- 25% upon shoot completion: $[AMOUNT]',
+          '- 25% upon final delivery: $[AMOUNT]',
+        ],
+      },
+      {
+        heading: '4. Revisions and Approval',
+        content: [
+          'Client is entitled to [NUMBER] rounds of revisions.',
+          'Additional revisions: $[RATE]/hour.',
+          'Final approval must be given within [NUMBER] days of delivery.',
+        ],
+      },
+      {
+        heading: '5. Usage Rights',
+        content: [
+          'Client receives usage rights for [PERSONAL / COMMERCIAL / UNLIMITED] use.',
+          'Videographer retains right to use footage for portfolio and marketing.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Client Signature: ____________________________   Date: ___________',
+          'Videographer Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'business-consulting': {
+    title: 'Business Consulting Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Business Consulting Agreement is entered into on [DATE] between:',
+          'Client: [CLIENT NAME]',
+          'Consultant: [YOUR NAME]',
+        ],
+      },
+      {
+        heading: '2. Consulting Services',
+        content: [
+          'The Consultant will provide business advisory services including:',
+          '- Strategic planning and analysis',
+          '- Business process improvement',
+          '- Market research and analysis',
+          '- Operational recommendations',
+          '- Duration: [START DATE] to [END DATE]',
+        ],
+      },
+      {
+        heading: '3. Compensation',
+        content: [
+          'Hourly Rate: $[AMOUNT] per hour',
+          'OR Monthly Retainer: $[AMOUNT]',
+          'Estimated Total: $[AMOUNT]',
+          'Invoices due within [NUMBER] days of receipt.',
+        ],
+      },
+      {
+        heading: '4. Deliverables',
+        content: [
+          'Consultant will provide:',
+          '- Written reports and recommendations',
+          '- Strategic plans and roadmaps',
+          '- Regular progress updates',
+        ],
+      },
+      {
+        heading: '5. Confidentiality',
+        content: [
+          'All business information shared is strictly confidential.',
+          'Consultant will not disclose or use information for personal gain.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Client Signature: ____________________________   Date: ___________',
+          'Consultant Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'it-consulting': {
+    title: 'IT Consulting Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This IT Consulting Agreement is entered into on [DATE] between:',
+          'Client: [CLIENT NAME]',
+          'IT Consultant: [YOUR NAME]',
+        ],
+      },
+      {
+        heading: '2. IT Services',
+        content: [
+          'The Consultant will provide IT consulting services:',
+          '- System analysis and assessment',
+          '- Technology recommendations',
+          '- Implementation planning',
+          '- Technical support and troubleshooting',
+          '- Project Duration: [START DATE] to [END DATE]',
+        ],
+      },
+      {
+        heading: '3. Compensation',
+        content: [
+          'Hourly Rate: $[AMOUNT] per hour',
+          'OR Fixed Project Fee: $[AMOUNT]',
+          'Payment Terms: [NET 15 / NET 30]',
+        ],
+      },
+      {
+        heading: '4. Scope and Limitations',
+        content: [
+          'Services are limited to consulting and advisory.',
+          'Implementation services require separate agreement.',
+          'Hardware/software purchases are client responsibility.',
+        ],
+      },
+      {
+        heading: '5. Confidentiality and Security',
+        content: [
+          'All client systems and data are confidential.',
+          'Consultant will maintain security best practices.',
+          'No unauthorized access or data sharing.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Client Signature: ____________________________   Date: ___________',
+          'IT Consultant Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'financial-consulting': {
+    title: 'Financial Consulting Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Financial Consulting Agreement is entered into on [DATE] between:',
+          'Client: [CLIENT NAME]',
+          'Financial Consultant: [YOUR NAME]',
+        ],
+      },
+      {
+        heading: '2. Financial Services',
+        content: [
+          'The Consultant will provide financial advisory services:',
+          '- Financial analysis and planning',
+          '- Budget development and review',
+          '- Investment recommendations',
+          '- Tax planning strategies',
+          '- Duration: [START DATE] to [END DATE]',
+        ],
+      },
+      {
+        heading: '3. Compensation',
+        content: [
+          'Hourly Rate: $[AMOUNT] per hour',
+          'OR Retainer: $[AMOUNT] per month',
+          'Total Estimated Fee: $[AMOUNT]',
+        ],
+      },
+      {
+        heading: '4. Regulatory Compliance',
+        content: [
+          'Consultant is not providing investment advice requiring SEC registration.',
+          'Client acknowledges consultant is not a licensed financial advisor.',
+          'All recommendations are advisory only.',
+        ],
+      },
+      {
+        heading: '5. Confidentiality',
+        content: [
+          'All financial information is strictly confidential.',
+          'Consultant will maintain professional confidentiality standards.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Client Signature: ____________________________   Date: ___________',
+          'Financial Consultant Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'independent-contractor': {
+    title: 'Independent Contractor Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Independent Contractor Agreement is entered into on [DATE] between:',
+          'Client: [CLIENT NAME]',
+          'Contractor: [YOUR NAME]',
+        ],
+      },
+      {
+        heading: '2. Services to be Performed',
+        content: [
+          'Contractor agrees to provide the following services:',
+          '- [DESCRIBE SERVICES IN DETAIL]',
+          '- Project Timeline: [START DATE] to [END DATE]',
+          '- Deliverables: [LIST DELIVERABLES]',
+        ],
+      },
+      {
+        heading: '3. Compensation',
+        content: [
+          'Payment Method: [HOURLY / FIXED FEE / PER DELIVERABLE]',
+          'Rate/Fee: $[AMOUNT]',
+          'Total Estimated: $[AMOUNT]',
+          'Payment Terms: [NET 15 / NET 30 / UPON COMPLETION]',
+        ],
+      },
+      {
+        heading: '4. Independent Contractor Status',
+        content: [
+          'Contractor is an independent contractor, not an employee.',
+          'Contractor is responsible for own taxes, insurance, and benefits.',
+          'Client will not withhold taxes or provide benefits.',
+        ],
+      },
+      {
+        heading: '5. Work Product and Ownership',
+        content: [
+          'Upon full payment, Client owns all work product and deliverables.',
+          'Contractor may use work for portfolio with Client permission.',
+        ],
+      },
+      {
+        heading: '6. Confidentiality',
+        content: [
+          'Contractor agrees to maintain confidentiality of all client information.',
+        ],
+      },
+      {
+        heading: '7. Termination',
+        content: [
+          'Either party may terminate with [NUMBER] days written notice.',
+          'Payment due for all work completed up to termination date.',
+        ],
+      },
+      {
+        heading: '8. Signatures',
+        content: [
+          'Client Signature: ____________________________   Date: ___________',
+          'Contractor Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'service-agreement': {
+    title: 'Service Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Service Agreement is entered into on [DATE] between:',
+          'Service Provider: [YOUR NAME]',
+          'Client: [CLIENT NAME]',
+        ],
+      },
+      {
+        heading: '2. Services',
+        content: [
+          'Service Provider agrees to provide:',
+          '- [DESCRIBE SERVICES]',
+          '- Service Period: [START DATE] to [END DATE]',
+          '- Service Location: [LOCATION]',
+        ],
+      },
+      {
+        heading: '3. Payment Terms',
+        content: [
+          'Service Fee: $[AMOUNT]',
+          'Payment Schedule: [ONE-TIME / MONTHLY / PER SERVICE]',
+          'Due Date: [DATE OR TERMS]',
+          'Late Fee: [PERCENT]% per month on overdue amounts.',
+        ],
+      },
+      {
+        heading: '4. Responsibilities',
+        content: [
+          'Service Provider Responsibilities:',
+          '- [LIST RESPONSIBILITIES]',
+          '',
+          'Client Responsibilities:',
+          '- [LIST RESPONSIBILITIES]',
+        ],
+      },
+      {
+        heading: '5. Term and Termination',
+        content: [
+          'This agreement begins on [DATE] and continues until [DATE].',
+          'Either party may terminate with [NUMBER] days written notice.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Service Provider Signature: ____________________________   Date: ___________',
+          'Client Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'vendor-agreement': {
+    title: 'Vendor Service Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Vendor Service Agreement is entered into on [DATE] between:',
+          'Business: [YOUR BUSINESS NAME]',
+          'Vendor: [VENDOR NAME]',
+        ],
+      },
+      {
+        heading: '2. Vendor Services',
+        content: [
+          'Vendor agrees to provide the following services/products:',
+          '- [DESCRIBE SERVICES OR PRODUCTS]',
+          '- Service Period: [START DATE] to [END DATE]',
+          '- Delivery Schedule: [SCHEDULE]',
+        ],
+      },
+      {
+        heading: '3. Pricing and Payment',
+        content: [
+          'Service/Product Price: $[AMOUNT]',
+          'Payment Terms: [NET 30 / UPON DELIVERY / MONTHLY]',
+          'Invoices due within [NUMBER] days of receipt.',
+        ],
+      },
+      {
+        heading: '4. Quality Standards',
+        content: [
+          'Vendor must meet agreed quality standards.',
+          'Business may reject non-conforming services/products.',
+          'Vendor will correct issues at no additional cost.',
+        ],
+      },
+      {
+        heading: '5. Term and Termination',
+        content: [
+          'Agreement term: [DURATION]',
+          'Either party may terminate with [NUMBER] days notice.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Business Signature: ____________________________   Date: ___________',
+          'Vendor Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'client-service-agreement': {
+    title: 'Client Service Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Client Service Agreement is entered into on [DATE] between:',
+          'Service Provider: [YOUR BUSINESS NAME]',
+          'Client: [CLIENT NAME]',
+        ],
+      },
+      {
+        heading: '2. Services Provided',
+        content: [
+          'Service Provider agrees to provide:',
+          '- [DESCRIBE SERVICES]',
+          '- Service Period: [START DATE] to [END DATE]',
+          '- Service Location: [LOCATION]',
+        ],
+      },
+      {
+        heading: '3. Fees and Payment',
+        content: [
+          'Service Fee: $[AMOUNT]',
+          'Payment Schedule: [ONE-TIME / MONTHLY / PER SERVICE]',
+          'Payment Method: [CHECK / BANK TRANSFER / CREDIT CARD]',
+          'Late payments incur [PERCENT]% monthly interest.',
+        ],
+      },
+      {
+        heading: '4. Client Obligations',
+        content: [
+          'Client agrees to:',
+          '- Provide necessary information and access',
+          '- Make timely payments',
+          '- Cooperate with service delivery',
+        ],
+      },
+      {
+        heading: '5. Limitation of Liability',
+        content: [
+          'Service Provider liability limited to fees paid.',
+          'Not liable for indirect or consequential damages.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Service Provider Signature: ____________________________   Date: ___________',
+          'Client Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'nda': {
+    title: 'Non-Disclosure Agreement (NDA)',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Non-Disclosure Agreement is entered into on [DATE] between:',
+          'Disclosing Party: [PARTY NAME]',
+          'Receiving Party: [PARTY NAME]',
+        ],
+      },
+      {
+        heading: '2. Definition of Confidential Information',
+        content: [
+          'Confidential Information includes:',
+          '- Business plans, strategies, and financial information',
+          '- Customer lists and data',
+          '- Proprietary technology and processes',
+          '- Any information marked as confidential',
+        ],
+      },
+      {
+        heading: '3. Obligations',
+        content: [
+          'Receiving Party agrees to:',
+          '- Keep all Confidential Information strictly confidential',
+          '- Use information solely for [PURPOSE]',
+          '- Not disclose to third parties without written consent',
+          '- Return or destroy all Confidential Information upon request',
+        ],
+      },
+      {
+        heading: '4. Exceptions',
+        content: [
+          'Confidential Information does not include:',
+          '- Information already publicly known',
+          '- Information independently developed',
+          '- Information received from third parties without restriction',
+        ],
+      },
+      {
+        heading: '5. Term',
+        content: [
+          'This agreement remains in effect for [NUMBER] years from the date of signing.',
+          'Confidentiality obligations survive termination.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Disclosing Party Signature: ____________________________   Date: ___________',
+          'Receiving Party Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'maintenance-agreement': {
+    title: 'Maintenance Service Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Maintenance Service Agreement is entered into on [DATE] between:',
+          'Service Provider: [YOUR NAME/BUSINESS]',
+          'Client: [CLIENT NAME]',
+        ],
+      },
+      {
+        heading: '2. Maintenance Services',
+        content: [
+          'Service Provider agrees to provide ongoing maintenance:',
+          '- Service Type: [EQUIPMENT / SOFTWARE / FACILITY / WEBSITE]',
+          '- Service Schedule: [WEEKLY / MONTHLY / QUARTERLY / AS NEEDED]',
+          '- Service Location: [LOCATION]',
+          '- Term: [START DATE] to [END DATE]',
+        ],
+      },
+      {
+        heading: '3. Fees',
+        content: [
+          'Monthly Fee: $[AMOUNT]',
+          'OR Annual Fee: $[AMOUNT]',
+          'Additional Services: $[RATE]/hour',
+          'Payment due by [DAY] of each month.',
+        ],
+      },
+      {
+        heading: '4. Service Response Times',
+        content: [
+          'Emergency: [NUMBER] hours',
+          'Urgent: [NUMBER] hours',
+          'Routine: [NUMBER] business days',
+        ],
+      },
+      {
+        heading: '5. Renewal and Termination',
+        content: [
+          'Agreement auto-renews unless terminated with [NUMBER] days notice.',
+          'Either party may terminate with written notice.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Service Provider Signature: ____________________________   Date: ___________',
+          'Client Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'agency-retainer': {
+    title: 'Agency Retainer Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Agency Retainer Agreement is entered into on [DATE] between:',
+          'Agency: [AGENCY NAME]',
+          'Client: [CLIENT NAME]',
+        ],
+      },
+      {
+        heading: '2. Retainer Services',
+        content: [
+          'Agency agrees to provide ongoing services:',
+          '- Service Scope: [MARKETING / DESIGN / DEVELOPMENT / CONSULTING]',
+          '- Monthly Retainer: $[AMOUNT]',
+          '- Included Hours: [NUMBER] hours per month',
+          '- Additional Hours: $[RATE]/hour',
+        ],
+      },
+      {
+        heading: '3. Payment Terms',
+        content: [
+          'Monthly retainer due on [DAY] of each month.',
+          'Additional services billed separately.',
+          'Invoices due within [NUMBER] days.',
+        ],
+      },
+      {
+        heading: '4. Scope of Work',
+        content: [
+          'Services included in retainer:',
+          '- [LIST SERVICES]',
+          '',
+          'Services not included (billed separately):',
+          '- [LIST EXCLUDED SERVICES]',
+        ],
+      },
+      {
+        heading: '5. Reporting',
+        content: [
+          'Agency will provide monthly reports detailing:',
+          '- Hours used and remaining',
+          '- Work completed',
+          '- Upcoming deliverables',
+        ],
+      },
+      {
+        heading: '6. Term and Termination',
+        content: [
+          'Initial term: [NUMBER] months',
+          'Auto-renews monthly unless terminated with [NUMBER] days notice.',
+        ],
+      },
+      {
+        heading: '7. Signatures',
+        content: [
+          'Agency Signature: ____________________________   Date: ___________',
+          'Client Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'agency-project': {
+    title: 'Agency Project Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Agency Project Agreement is entered into on [DATE] between:',
+          'Agency: [AGENCY NAME]',
+          'Client: [CLIENT NAME]',
+        ],
+      },
+      {
+        heading: '2. Project Scope',
+        content: [
+          'Agency agrees to deliver the following project:',
+          '- Project Name: [PROJECT NAME]',
+          '- Deliverables: [LIST DELIVERABLES]',
+          '- Timeline: [START DATE] to [END DATE]',
+          '- Budget: $[AMOUNT]',
+        ],
+      },
+      {
+        heading: '3. Payment Schedule',
+        content: [
+          'Payment Milestones:',
+          '- 50% upon signing: $[AMOUNT]',
+          '- 25% at midpoint: $[AMOUNT]',
+          '- 25% upon final delivery: $[AMOUNT]',
+        ],
+      },
+      {
+        heading: '4. Project Phases',
+        content: [
+          'Phase 1: [DESCRIPTION] - Due [DATE]',
+          'Phase 2: [DESCRIPTION] - Due [DATE]',
+          'Phase 3: [DESCRIPTION] - Due [DATE]',
+        ],
+      },
+      {
+        heading: '5. Revisions and Changes',
+        content: [
+          'Client is entitled to [NUMBER] revision rounds per phase.',
+          'Scope changes require written change order and may affect timeline/cost.',
+        ],
+      },
+      {
+        heading: '6. Signatures',
+        content: [
+          'Agency Signature: ____________________________   Date: ___________',
+          'Client Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
+
+  'agency-client': {
+    title: 'Agency-Client Service Agreement',
+    sections: [
+      {
+        heading: '1. Parties',
+        content: [
+          'This Agency-Client Service Agreement is entered into on [DATE] between:',
+          'Agency: [AGENCY NAME]',
+          'Client: [CLIENT NAME]',
+        ],
+      },
+      {
+        heading: '2. Services',
+        content: [
+          'Agency will provide comprehensive services:',
+          '- [SERVICE TYPE 1]',
+          '- [SERVICE TYPE 2]',
+          '- [SERVICE TYPE 3]',
+          '- Service Period: [START DATE] to [END DATE]',
+        ],
+      },
+      {
+        heading: '3. Compensation',
+        content: [
+          'Payment Structure: [RETAINER / PROJECT-BASED / HOURLY]',
+          'Monthly/Project Fee: $[AMOUNT]',
+          'Additional Services: $[RATE]/hour',
+          'Payment Terms: [NET 15 / NET 30]',
+        ],
+      },
+      {
+        heading: '4. Agency Responsibilities',
+        content: [
+          'Agency will:',
+          '- Assign dedicated team members',
+          '- Provide regular progress updates',
+          '- Deliver work on time and to agreed standards',
+          '- Maintain confidentiality',
+        ],
+      },
+      {
+        heading: '5. Client Responsibilities',
+        content: [
+          'Client will:',
+          '- Provide timely feedback and approvals',
+          '- Supply necessary materials and information',
+          '- Make payments as agreed',
+        ],
+      },
+      {
+        heading: '6. Intellectual Property',
+        content: [
+          'Upon full payment, Client owns all final deliverables.',
+          'Agency retains right to showcase work in portfolio.',
+        ],
+      },
+      {
+        heading: '7. Signatures',
+        content: [
+          'Agency Signature: ____________________________   Date: ___________',
+          'Client Signature: _________________________   Date: ___________',
+        ],
+      },
+    ],
+  },
 }
 
 

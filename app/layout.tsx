@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Dealping - Never Miss a Contract Renewal",
-  description: "AI-powered contract reminders for freelancers. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
-  keywords: ["contract management", "freelancer tools", "contract reminders", "AI contract tracking", "freelance contracts", "contract renewal"],
+  description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
+  keywords: ["contract management", "freelancer tools", "contract reminders", "AI contract tracking", "independent contractor", "contract renewal", "consultant tools", "small business contracts"],
   authors: [{ name: "Dealping" }],
   creator: "Dealping",
   publisher: "Dealping",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.app',
     siteName: "Dealping",
     title: "Dealping - Never Miss a Contract Renewal",
-    description: "AI-powered contract reminders for freelancers. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
+    description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
     images: [
       {
         url: "/og-image.png",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Dealping - Never Miss a Contract Renewal",
-    description: "AI-powered contract reminders for freelancers. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
+    description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
     images: ["/og-image.png"],
     creator: "@dealping",
   },

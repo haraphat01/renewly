@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Dealping - Contract Management for Freelancers',
+    name: 'Dealping - Contract Management for Independent Professionals',
     short_name: 'Dealping',
-    description: 'AI-powered contract reminders for freelancers. Track contracts, get automated reminders, and never miss a renewal or rate increase again.',
+    description: 'AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',

@@ -19,7 +19,7 @@ const plan = {
     savings: 18,
     savingsPercent: 17,
   },
-  description: 'Perfect for individual freelancers',
+        description: 'Perfect for independent professionals',
   features: [
     'Unlimited contracts',
     'Email + SMS reminders',

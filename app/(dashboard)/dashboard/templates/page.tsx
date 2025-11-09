@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 const templates = [
+  // Freelancers
   {
     id: 'freelance-writing',
     name: 'Freelance Writing Contract',
@@ -24,12 +25,6 @@ const templates = [
     description: 'Contract template for software developers covering milestones, IP rights, and maintenance.',
   },
   {
-    id: 'consulting',
-    name: 'Consulting Services Agreement',
-    category: 'Consulting',
-    description: 'Professional consulting agreement with terms for deliverables, confidentiality, and payment.',
-  },
-  {
     id: 'graphic-design',
     name: 'Graphic Design Contract',
     category: 'Design',
@@ -40,6 +35,100 @@ const templates = [
     name: 'Marketing Services Contract',
     category: 'Marketing',
     description: 'Agreement for marketing freelancers including campaign scope, reporting, and payment terms.',
+  },
+  {
+    id: 'photography',
+    name: 'Photography Services Contract',
+    category: 'Photography',
+    description: 'Contract for photographers covering shoot details, usage rights, and image delivery.',
+  },
+  {
+    id: 'video-production',
+    name: 'Video Production Contract',
+    category: 'Video',
+    description: 'Agreement for videographers covering production scope, editing, and final deliverables.',
+  },
+  // Consultants
+  {
+    id: 'consulting',
+    name: 'Consulting Services Agreement',
+    category: 'Consulting',
+    description: 'Professional consulting agreement with terms for deliverables, confidentiality, and payment.',
+  },
+  {
+    id: 'business-consulting',
+    name: 'Business Consulting Agreement',
+    category: 'Consulting',
+    description: 'Comprehensive agreement for business consultants covering strategy, analysis, and recommendations.',
+  },
+  {
+    id: 'it-consulting',
+    name: 'IT Consulting Agreement',
+    category: 'Consulting',
+    description: 'Specialized contract for IT consultants covering system analysis, implementation, and support.',
+  },
+  {
+    id: 'financial-consulting',
+    name: 'Financial Consulting Agreement',
+    category: 'Consulting',
+    description: 'Agreement for financial consultants covering advisory services, analysis, and compliance.',
+  },
+  // Independent Contractors
+  {
+    id: 'independent-contractor',
+    name: 'Independent Contractor Agreement',
+    category: 'General',
+    description: 'General service agreement for independent contractors covering scope, payment, and terms.',
+  },
+  {
+    id: 'service-agreement',
+    name: 'Service Agreement Template',
+    category: 'General',
+    description: 'Flexible service agreement template suitable for various independent contractor services.',
+  },
+  // Small Business Owners
+  {
+    id: 'vendor-agreement',
+    name: 'Vendor Service Agreement',
+    category: 'Business',
+    description: 'Contract for small businesses to engage vendors, covering services, pricing, and terms.',
+  },
+  {
+    id: 'client-service-agreement',
+    name: 'Client Service Agreement',
+    category: 'Business',
+    description: 'Template for small businesses providing services to clients, covering scope and payment.',
+  },
+  {
+    id: 'nda',
+    name: 'Non-Disclosure Agreement (NDA)',
+    category: 'Legal',
+    description: 'Standard NDA template to protect confidential information in business relationships.',
+  },
+  {
+    id: 'maintenance-agreement',
+    name: 'Maintenance Service Agreement',
+    category: 'Business',
+    description: 'Agreement for ongoing maintenance services, covering schedules, pricing, and responsibilities.',
+  },
+  // Agencies
+  {
+    id: 'agency-retainer',
+    name: 'Agency Retainer Agreement',
+    category: 'Agency',
+    description: 'Monthly retainer agreement for agencies providing ongoing services to clients.',
+  },
+  {
+    id: 'agency-project',
+    name: 'Agency Project Agreement',
+    category: 'Agency',
+    description: 'Project-based contract for agencies covering deliverables, timelines, and payment milestones.',
+  },
+  {
+    id: 'agency-client',
+    name: 'Agency-Client Service Agreement',
+    category: 'Agency',
+    description: 'Comprehensive service agreement for agencies managing multiple client projects.',
   },
 ]
 
@@ -87,7 +176,7 @@ export default function TemplatesPage() {
     <div>
       <div className="mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Contract Templates</h1>
-        <p className="text-sm sm:text-base text-gray-600 mt-1">Professional contract templates for your freelance business</p>
+        <p className="text-sm sm:text-base text-gray-600 mt-1">Professional contract templates for your business</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
