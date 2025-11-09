@@ -10,7 +10,7 @@ This guide will help you set up Stripe for subscription payments in Dealping.
 
 ## Step 2: Create Products and Prices
 
-### Create Pro Plan ($9/month)
+### Create Pro Plan
 
 1. Go to **Products** in Stripe Dashboard
 2. Click **Add product**
@@ -18,10 +18,19 @@ This guide will help you set up Stripe for subscription payments in Dealping.
    - **Name**: Pro Plan
    - **Description**: Unlimited contracts, email + SMS, analytics
    - **Pricing model**: Standard pricing
+
+4. **Create Monthly Price**:
    - **Price**: $9.00 USD
    - **Billing period**: Monthly
-4. Click **Save product**
-5. Copy the **Price ID** (starts with `price_`)
+   - Click **Save product**
+   - Copy the **Price ID** (starts with `price_`) - this is `STRIPE_PRO_MONTHLY_PRICE_ID`
+
+5. **Add Yearly Price** (same product):
+   - Click **Add another price** on the same product
+   - **Price**: $90.00 USD
+   - **Billing period**: Yearly
+   - Click **Save**
+   - Copy the **Price ID** (starts with `price_`) - this is `STRIPE_PRO_YEARLY_PRICE_ID`
 
 
 ## Step 3: Get API Keys
@@ -66,8 +75,13 @@ Add to your `.env.local`:
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-   STRIPE_PRO_PRICE_ID=price_xxxxx
+STRIPE_PRO_MONTHLY_PRICE_ID=price_xxxxx
+STRIPE_PRO_YEARLY_PRICE_ID=price_xxxxx
 ```
+
+**Note**: You need to create two separate prices in Stripe:
+- One for monthly billing ($9/month)
+- One for yearly billing ($90/year)
 
 ## Step 6: Test the Integration
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Check, Upload, Bell, TrendingUp, FileText } from "lucide-react";
+import PricingSection from "./components/PricingSection";
 
 export default function Home() {
   return (
@@ -116,72 +117,7 @@ export default function Home() {
         </div>
 
         {/* Pricing */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Simple, Transparent Pricing</h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
-              <div className="text-4xl font-bold text-gray-900 mb-4">$0<span className="text-lg text-gray-600">/mo</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-2" />
-                  1 active contract
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-2" />
-                  Email reminders
-                </li>
-                <li className="flex items-center text-gray-400">
-                  <Check className="h-5 w-5 text-gray-300 mr-2" />
-                  SMS reminders
-                </li>
-                <li className="flex items-center text-gray-400">
-                  <Check className="h-5 w-5 text-gray-300 mr-2" />
-                  Analytics
-                </li>
-              </ul>
-              <SignedOut>
-                <SignUpButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-                  <button className="w-full border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors">
-                    Get Started
-                  </button>
-                </SignUpButton>
-              </SignedOut>
-            </div>
-            <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl shadow-lg p-8 text-white transform scale-105">
-              <div className="bg-yellow-400 text-purple-900 text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">
-                POPULAR
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <div className="text-4xl font-bold mb-4">$9<span className="text-lg opacity-90">/mo</span></div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 mr-2" />
-                  Unlimited contracts
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 mr-2" />
-                  Email + SMS reminders
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 mr-2" />
-                  Revenue analytics
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-5 w-5 mr-2" />
-                  Priority support
-                </li>
-              </ul>
-              <SignedOut>
-                <SignUpButton mode="modal" forceRedirectUrl="/dashboard" fallbackRedirectUrl="/dashboard">
-                  <button className="w-full bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                    Start Pro Trial
-                  </button>
-                </SignUpButton>
-              </SignedOut>
-            </div>
-          </div>
-        </div>
+        <PricingSection />
 
         {/* CTA */}
         <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl shadow-xl p-12 text-center text-white">

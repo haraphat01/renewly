@@ -12,11 +12,18 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { plan } = body
+    const { plan, interval = 'month' } = body
 
     if (!plan || !STRIPE_PLANS[plan as keyof typeof STRIPE_PLANS]) {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
     }
+
+    if (interval !== 'month' && interval !== 'year') {
+      return NextResponse.json({ error: 'Invalid billing interval' }, { status: 400 })
+    }
+
+    const planConfig = STRIPE_PLANS[plan as keyof typeof STRIPE_PLANS]
+    const priceId = interval === 'year' ? planConfig.yearly.priceId : planConfig.monthly.priceId
 
     const supabase = await createClient()
 
@@ -76,7 +83,7 @@ export async function POST(request: NextRequest) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: STRIPE_PLANS[plan as keyof typeof STRIPE_PLANS].priceId,
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -86,6 +93,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         clerk_id: userId,
         plan,
+        interval,
       },
     })
 
