@@ -56,7 +56,7 @@ export default function Home() {
               <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                 <iframe
                   className="absolute top-0 left-0 w-full h-full rounded-lg"
-                  src="https://youtu.be/jfzbRRNN-lk"
+                  src="https://www.youtube.com/embed/jfzbRRNN-lk?si=DNGpmv1L0nOhRpIF"
                   title="Dealping Demo Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
