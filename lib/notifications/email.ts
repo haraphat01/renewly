@@ -64,7 +64,7 @@ export async function sendContractReminderEmail(
   try {
     const resend = getResend()
     await resend.emails.send({
-      from: 'Dealping <noreply@dealping.app>',
+      from: 'Dealping <noreply@dealping.tech>',
       to,
       subject,
       html,
