@@ -20,11 +20,11 @@ export const metadata: Metadata = {
   authors: [{ name: "Dealping" }],
   creator: "Dealping",
   publisher: "Dealping",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.tech'),
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.app',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.tech',
     siteName: "Dealping",
     title: "Dealping - Never Miss a Contract Renewal",
     description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
@@ -87,14 +87,14 @@ export default function RootLayout({
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-PFNBH779');
+              })(window,document,'script','dataLayer','G-55BHC7RPBR');
             `,
           }}
         />
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-PFNBH779"
+            src="https://www.googletagmanager.com/ns.html?id=G-55BHC7RPBR"
             height="0"
             width="0"
             style={{ display: 'none', visibility: 'hidden' }}
