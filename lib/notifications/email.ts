@@ -18,6 +18,13 @@ export async function sendContractReminderEmail(
 ) {
   const subject = `Reminder: ${contractName} ${type === 'renewal' ? 'Renewal' : type === 'rate_increase' ? 'Rate Increase' : 'Payment Term'} Due Soon`
 
+  const daysMessage =
+    daysUntilEnd < 0
+      ? `ended ${Math.abs(daysUntilEnd)} day${Math.abs(daysUntilEnd) === 1 ? '' : 's'} ago`
+      : daysUntilEnd === 0
+      ? 'ending today'
+      : `ending in ${daysUntilEnd} day${daysUntilEnd === 1 ? '' : 's'}`
+
   const html = `
     <!DOCTYPE html>
     <html>
@@ -33,7 +40,7 @@ export async function sendContractReminderEmail(
         <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; border: 1px solid #e5e7eb;">
           <h2 style="color: #111827; margin-top: 0;">Contract Reminder</h2>
           <p style="color: #4b5563; font-size: 16px;">
-            This is a reminder that your contract with <strong>${clientName}</strong> is ${daysUntilEnd === 0 ? 'ending today' : `ending in ${daysUntilEnd} day${daysUntilEnd > 1 ? 's' : ''}`}.
+            This is a reminder that your contract with <strong>${clientName}</strong> is ${daysMessage}.
           </p>
           <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #667eea;">
             <p style="margin: 0; color: #111827;"><strong>Contract:</strong> ${contractName}</p>

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
           email
         )
       `)
-      .eq('reminder_date', today)
+      .lte('reminder_date', today)
       .eq('sent', false)
 
     if (remindersError) {

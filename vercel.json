@@ -2,7 +2,11 @@
   "crons": [
     {
       "path": "/api/reminders/send",
-      "schedule": "0 9 * * *"
+      "schedule": "0 9 * * *",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer ${CRON_SECRET}"
+      }
     }
   ]
 }
