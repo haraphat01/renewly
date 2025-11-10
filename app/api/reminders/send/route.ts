@@ -3,19 +3,25 @@ import { createClient } from '@/lib/supabase/server'
 import { sendContractReminderEmail } from '@/lib/notifications/email'
 import { differenceInDays } from 'date-fns'
 
-// This endpoint should be called by a cron job or scheduled task
-export async function POST(request: NextRequest) {
-  try {
-    // Verify this is an authorized request (you should add API key auth here)
-    const authHeader = request.headers.get('authorization')
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+async function authorize(request: NextRequest) {
+  const authHeader = request.headers.get('authorization')
+  const cronHeader = request.headers.get('x-vercel-cron')
 
+  const hasSecret = authHeader === `Bearer ${process.env.CRON_SECRET}`
+  const isVercelCron = Boolean(cronHeader)
+
+  if (!hasSecret && !isVercelCron) {
+    return false
+  }
+
+  return true
+}
+
+async function processReminders() {
+  try {
     const supabase = await createClient()
     const today = new Date().toISOString().split('T')[0]
 
-    // Get all unsent reminders for today
     const { data: reminders, error: remindersError } = await supabase
       .from('reminders')
       .select(`
@@ -66,7 +72,6 @@ export async function POST(request: NextRequest) {
           reminder.reminder_type
         )
 
-        // Mark reminder as sent
         await supabase
           .from('reminders')
           .update({
@@ -86,5 +91,24 @@ export async function POST(request: NextRequest) {
     console.error('Reminder sending error:', error)
     return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
   }
+}
+
+// This endpoint should be called by a cron job or scheduled task
+export async function POST(request: NextRequest) {
+  const authorized = await authorize(request)
+  if (!authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  return processReminders()
+}
+
+export async function GET(request: NextRequest) {
+  const authorized = await authorize(request)
+  if (!authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  return processReminders()
 }
 
