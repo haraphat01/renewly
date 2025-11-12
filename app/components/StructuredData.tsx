@@ -63,6 +63,14 @@ export default function StructuredData() {
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "Who uses Dealping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dealping is designed for independent professionals who manage client contracts. Our users include freelancers (writers, designers, developers), consultants, independent contractors, small business owners, and agencies managing multiple client contracts. If you're juggling multiple contracts and need to stay on top of renewals, rate increases, and payment terms, Dealping is perfect for you.",
+        },
+      },
+      {
+        "@type": "Question",
         "name": "What is Dealping?",
         "acceptedAnswer": {
           "@type": "Answer",

@@ -5,6 +5,7 @@ import PricingSection from "./components/PricingSection";
 import AuthButtons from "./components/AuthButtons";
 import OAuthCallbackHandler from "./components/OAuthCallbackHandler";
 import StructuredData from "./components/StructuredData";
+import FAQSection from "./components/FAQSection";
 
 export const metadata = {
   title: "AI-Powered Contract Management for Independent Professionals",
@@ -183,6 +184,9 @@ export default function Home() {
 
           {/* Pricing */}
           <PricingSection />
+
+          {/* FAQ Section */}
+          <FAQSection />
 
           {/* CTA */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl shadow-xl p-12 text-center text-white">
