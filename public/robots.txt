@@ -3,11 +3,17 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://dealping.app/sitemap.xml
+Sitemap: https://dealping.tech/sitemap.xml
 
 # Disallow private/admin routes
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /auth/
 Disallow: /sign-in
 Disallow: /sign-up
+
+# Allow public assets
+Allow: /icon.png
+Allow: /og-image.png
+Allow: /favicon.ico
 

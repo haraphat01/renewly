@@ -4,26 +4,39 @@ import { Check, Upload, Bell, TrendingUp, FileText, Users, Briefcase, Building2,
 import PricingSection from "./components/PricingSection";
 import AuthButtons from "./components/AuthButtons";
 import OAuthCallbackHandler from "./components/OAuthCallbackHandler";
+import StructuredData from "./components/StructuredData";
+
+export const metadata = {
+  title: "AI-Powered Contract Management for Independent Professionals",
+  description: "Never miss a contract renewal again. Dealping uses AI to extract contract details, sends automated reminders, and helps freelancers, consultants, and small businesses track all their contracts in one place. Start free today.",
+  openGraph: {
+    title: "Dealping - Never Miss a Contract Renewal",
+    description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and protect your income.",
+  },
+};
 
 export default function Home() {
   return (
     <>
+      <StructuredData />
       <Suspense fallback={null}>
         <OAuthCallbackHandler />
       </Suspense>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         {/* Navigation */}
-        <nav className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <FileText className="h-8 w-8 text-purple-600" />
-                <span className="ml-2 text-2xl font-bold text-gray-900">Dealping</span>
+        <header>
+          <nav className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50" aria-label="Main navigation">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center h-16">
+                <Link href="/" className="flex items-center" aria-label="Dealping Home">
+                  <FileText className="h-8 w-8 text-purple-600" aria-hidden="true" />
+                  <span className="ml-2 text-2xl font-bold text-gray-900">Dealping</span>
+                </Link>
+                <AuthButtons />
               </div>
-              <AuthButtons />
             </div>
-          </div>
-        </nav>
+          </nav>
+        </header>
 
         {/* Hero Section */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -57,9 +70,10 @@ export default function Home() {
                 <iframe
                   className="absolute top-0 left-0 w-full h-full rounded-lg"
                   src="https://www.youtube.com/embed/jfzbRRNN-lk?si=DNGpmv1L0nOhRpIF"
-                  title="Dealping Demo Video"
+                  title="Dealping Demo Video - See how to manage contracts and never miss a renewal"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -113,32 +127,35 @@ export default function Home() {
         </div>
 
           {/* Features Grid */}
-          <div id="features" className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <Upload className="h-10 w-10 text-purple-600 mb-4" />
+          <section id="features" aria-labelledby="features-heading" className="mb-20">
+            <h2 id="features-heading" className="text-3xl font-bold text-gray-900 text-center mb-12">Powerful Features</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <article className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <Upload className="h-10 w-10 text-purple-600 mb-4" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Contract Extraction</h3>
               <p className="text-gray-600">Upload PDFs or DOCX files. Our AI automatically extracts dates, rates, and terms.</p>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <Bell className="h-10 w-10 text-purple-600 mb-4" />
+            </article>
+            <article className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <Bell className="h-10 w-10 text-purple-600 mb-4" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Smart Reminders</h3>
               <p className="text-gray-600">Get email and SMS reminders 30, 15, and 7 days before renewals.</p>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <TrendingUp className="h-10 w-10 text-purple-600 mb-4" />
+            </article>
+            <article className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <TrendingUp className="h-10 w-10 text-purple-600 mb-4" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Revenue Tracking</h3>
               <p className="text-gray-600">Track total revenue, expiring contracts, and average rates per client.</p>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <FileText className="h-10 w-10 text-purple-600 mb-4" />
+            </article>
+            <article className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <FileText className="h-10 w-10 text-purple-600 mb-4" aria-hidden="true" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Contract Templates</h3>
               <p className="text-gray-600">Access professional contract templates for writing, design, dev, and more.</p>
+            </article>
             </div>
-          </div>
+          </section>
 
           {/* How It Works */}
-          <div className="bg-white rounded-2xl shadow-lg p-12 mb-20">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">How It Works</h2>
+          <section className="bg-white rounded-2xl shadow-lg p-12 mb-20" aria-labelledby="how-it-works-heading">
+            <h2 id="how-it-works-heading" className="text-3xl font-bold text-gray-900 text-center mb-12">How It Works</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -162,7 +179,7 @@ export default function Home() {
                 <p className="text-gray-600">Receive automated email and SMS reminders before renewals, so you never miss an opportunity.</p>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Pricing */}
           <PricingSection />
@@ -181,10 +198,10 @@ export default function Home() {
         <footer className="border-t border-gray-200 bg-white mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="flex items-center mb-4 md:mb-0">
-                <FileText className="h-6 w-6 text-purple-600" />
+              <Link href="/" className="flex items-center mb-4 md:mb-0" aria-label="Dealping Home">
+                <FileText className="h-6 w-6 text-purple-600" aria-hidden="true" />
                 <span className="ml-2 text-xl font-bold text-gray-900">Dealping</span>
-              </div>
+              </Link>
               <p className="text-gray-600 text-sm">© 2025 Dealping. All rights reserved.</p>
             </div>
           </div>

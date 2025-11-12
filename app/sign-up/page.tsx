@@ -76,8 +76,8 @@ export default function SignUpPage() {
       <div className="w-full max-w-md">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center justify-center mb-4">
-            <FileText className="h-8 w-8 text-purple-600" />
+          <Link href="/" className="inline-flex items-center justify-center mb-4" aria-label="Dealping Home">
+            <FileText className="h-8 w-8 text-purple-600" aria-hidden="true" />
             <span className="ml-2 text-2xl font-bold text-gray-900">Dealping</span>
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">Get started</h1>

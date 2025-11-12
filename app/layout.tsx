@@ -14,26 +14,47 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dealping - Never Miss a Contract Renewal",
-  description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
-  keywords: ["contract management", "freelancer tools", "contract reminders", "AI contract tracking", "independent contractor", "contract renewal", "consultant tools", "small business contracts"],
+  title: {
+    default: "Dealping - Never Miss a Contract Renewal | AI Contract Management",
+    template: "%s | Dealping",
+  },
+  description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again. Perfect for freelancers, consultants, and small businesses.",
+  keywords: [
+    "contract management",
+    "freelancer tools",
+    "contract reminders",
+    "AI contract tracking",
+    "independent contractor",
+    "contract renewal",
+    "consultant tools",
+    "small business contracts",
+    "contract management software",
+    "freelance contract tracker",
+    "automated contract reminders",
+    "contract expiration tracker",
+    "client contract management",
+    "service agreement tracker",
+  ],
   authors: [{ name: "Dealping" }],
   creator: "Dealping",
   publisher: "Dealping",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.tech'),
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.tech',
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://dealping.tech',
     siteName: "Dealping",
-    title: "Dealping - Never Miss a Contract Renewal",
+    title: "Dealping - Never Miss a Contract Renewal | AI Contract Management",
     description: "AI-powered contract management for independent professionals. Track contracts, get automated reminders, and never miss a renewal or rate increase again.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Dealping - AI-Powered Contract Management",
+        alt: "Dealping - AI-Powered Contract Management for Independent Professionals",
       },
     ],
   },
@@ -64,6 +85,11 @@ export const metadata: Metadata = {
       { url: '/icon.png', sizes: '180x180', type: 'image/png' },
     ],
     shortcut: '/icon.png',
+  },
+  verification: {
+    // Add your verification codes here when available
+    // google: 'your-google-verification-code',
+    // yandex: 'your-yandex-verification-code',
   },
 };
 
