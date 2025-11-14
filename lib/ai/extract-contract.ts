@@ -91,9 +91,106 @@ If a date is not explicitly stated, use reasonable defaults or return null. For 
 }
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  const pdf = require('pdf-parse')
-  const data = await pdf(buffer)
-  return data.text
+  // Polyfill DOMMatrix for Node.js environment before importing pdfjs-dist
+  if (typeof globalThis.DOMMatrix === 'undefined') {
+    // Simple DOMMatrix polyfill
+    class DOMMatrixPolyfill {
+      a: number = 1
+      b: number = 0
+      c: number = 0
+      d: number = 1
+      e: number = 0
+      f: number = 0
+      m11: number = 1
+      m12: number = 0
+      m21: number = 0
+      m22: number = 1
+      m41: number = 0
+      m42: number = 0
+      
+      constructor(init?: string | number[]) {
+        if (init) {
+          if (typeof init === 'string') {
+            const values = init.match(/[\d.-]+/g)?.map(Number) || []
+            if (values.length >= 6) {
+              this.a = this.m11 = values[0]
+              this.b = this.m12 = values[1]
+              this.c = this.m21 = values[2]
+              this.d = this.m22 = values[3]
+              this.e = this.m41 = values[4]
+              this.f = this.m42 = values[5]
+            }
+          } else if (Array.isArray(init) && init.length >= 6) {
+            this.a = this.m11 = init[0]
+            this.b = this.m12 = init[1]
+            this.c = this.m21 = init[2]
+            this.d = this.m22 = init[3]
+            this.e = this.m41 = init[4]
+            this.f = this.m42 = init[5]
+          }
+        }
+      }
+      
+      multiply(other: DOMMatrixPolyfill): DOMMatrixPolyfill {
+        const result = new DOMMatrixPolyfill()
+        result.a = result.m11 = this.a * other.a + this.c * other.b
+        result.b = result.m12 = this.b * other.a + this.d * other.b
+        result.c = result.m21 = this.a * other.c + this.c * other.d
+        result.d = result.m22 = this.b * other.c + this.d * other.d
+        result.e = result.m41 = this.a * other.e + this.c * other.f + this.e
+        result.f = result.m42 = this.b * other.e + this.d * other.f + this.f
+        return result
+      }
+      
+      translate(x: number, y: number): DOMMatrixPolyfill {
+        return this.multiply(new DOMMatrixPolyfill([1, 0, 0, 1, x, y]))
+      }
+      
+      scale(x: number, y?: number): DOMMatrixPolyfill {
+        return this.multiply(new DOMMatrixPolyfill([x, 0, 0, y ?? x, 0, 0]))
+      }
+    }
+    
+    // @ts-ignore
+    globalThis.DOMMatrix = DOMMatrixPolyfill
+    // @ts-ignore
+    globalThis.DOMMatrixReadOnly = DOMMatrixPolyfill
+  }
+  
+  // Use pdfjs-dist for Node.js compatibility
+  const pdfjsLib = await import('pdfjs-dist')
+  
+  // Disable worker for Node.js environment
+  pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+  
+  // Load the PDF document
+  const loadingTask = pdfjsLib.getDocument({
+    data: new Uint8Array(buffer),
+    useSystemFonts: true,
+    verbosity: 0,
+    isEvalSupported: false,
+  })
+  
+  const pdfDocument = await loadingTask.promise
+  const numPages = pdfDocument.numPages
+  const textParts: string[] = []
+  
+  // Extract text from each page
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    const page = await pdfDocument.getPage(pageNum)
+    const textContent = await page.getTextContent()
+    const pageText = textContent.items
+      .map((item: any) => {
+        if (item && typeof item === 'object' && 'str' in item) {
+          return item.str
+        }
+        return ''
+      })
+      .join(' ')
+    textParts.push(pageText)
+  }
+  
+  return textParts.join('\n\n')
 }
 
 export async function extractTextFromDOCX(buffer: Buffer): Promise<string> {
