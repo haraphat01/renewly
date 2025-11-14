@@ -157,40 +157,10 @@ export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
     globalThis.DOMMatrixReadOnly = DOMMatrixPolyfill
   }
   
-  // Use pdfjs-dist for Node.js compatibility
-  const pdfjsLib = await import('pdfjs-dist')
-  
-  // Disable worker for Node.js environment
-  pdfjsLib.GlobalWorkerOptions.workerSrc = ''
-  
-  // Load the PDF document
-  const loadingTask = pdfjsLib.getDocument({
-    data: new Uint8Array(buffer),
-    useSystemFonts: true,
-    verbosity: 0,
-    isEvalSupported: false,
-  })
-  
-  const pdfDocument = await loadingTask.promise
-  const numPages = pdfDocument.numPages
-  const textParts: string[] = []
-  
-  // Extract text from each page
-  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-    const page = await pdfDocument.getPage(pageNum)
-    const textContent = await page.getTextContent()
-    const pageText = textContent.items
-      .map((item: any) => {
-        if (item && typeof item === 'object' && 'str' in item) {
-          return item.str
-        }
-        return ''
-      })
-      .join(' ')
-    textParts.push(pageText)
-  }
-  
-  return textParts.join('\n\n')
+  // Use pdf-parse with DOMMatrix polyfill (simpler for Node.js)
+  const pdf = require('pdf-parse')
+  const data = await pdf(buffer)
+  return data.text
 }
 
 export async function extractTextFromDOCX(buffer: Buffer): Promise<string> {
