@@ -20,12 +20,6 @@ const nextConfig: NextConfig = {
       // Ignore canvas module on server (used by pdf-parse but not needed)
       config.resolve.alias.canvas = false;
     }
-    
-    // Handle PDF.js worker files
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'pdfjs-dist/build/pdf.worker.entry': false,
-    };
 
     return config;
   },
