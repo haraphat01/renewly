@@ -14,6 +14,22 @@ const nextConfig: NextConfig = {
   // Turbopack configuration (Next.js 16+ uses Turbopack by default)
   turbopack: {},
 
+  // Webpack configuration for PDF parsing
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Ignore canvas module on server (used by pdf-parse but not needed)
+      config.resolve.alias.canvas = false;
+    }
+    
+    // Handle PDF.js worker files
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'pdfjs-dist/build/pdf.worker.entry': false,
+    };
+
+    return config;
+  },
+
   // Headers for better SEO and security
   async headers() {
     return [

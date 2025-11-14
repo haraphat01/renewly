@@ -156,25 +156,20 @@ if (typeof globalThis.DOMMatrix === 'undefined') {
 }
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  // Use pdf-parse v2 API
-  const { PDFParse } = require('pdf-parse')
-  
-  // Ensure buffer is a Buffer instance
-  const pdfBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
-  
-  // Create parser instance
-  const parser = new PDFParse({ data: pdfBuffer })
-  
   try {
-    // Extract text using getText() method
-    const result = await parser.getText()
-    return result.text || ''
+    // Use pdf-parse with simple API - no worker needed
+    const pdfParse = require('pdf-parse')
+    
+    // Ensure buffer is a Buffer instance
+    const pdfBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
+    
+    // Parse PDF directly - pdf-parse handles everything internally
+    const data = await pdfParse(pdfBuffer)
+    
+    return data.text || ''
   } catch (error: any) {
     console.error('Error in extractTextFromPDF:', error)
     throw new Error(`Failed to extract text from PDF: ${error.message || error}`)
-  } finally {
-    // Always destroy the parser to free memory
-    await parser.destroy()
   }
 }
 
