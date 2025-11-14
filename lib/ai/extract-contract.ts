@@ -157,14 +157,14 @@ if (typeof globalThis.DOMMatrix === 'undefined') {
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
   try {
-    // Use pdf-parse with simple API - no worker needed
-    const pdfParse = require('pdf-parse')
+    // Import pdf-parse v2 - it exports a class, not a function
+    const { default: PDFParser } = await import('pdf-parse')
     
     // Ensure buffer is a Buffer instance
     const pdfBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
     
-    // Parse PDF directly - pdf-parse handles everything internally
-    const data = await pdfParse(pdfBuffer)
+    // pdf-parse v2 expects to be called as a function with the buffer
+    const data = await PDFParser(pdfBuffer)
     
     return data.text || ''
   } catch (error: any) {
