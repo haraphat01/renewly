@@ -90,77 +90,91 @@ If a date is not explicitly stated, use reasonable defaults or return null. For 
   }
 }
 
-export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  // Polyfill DOMMatrix for Node.js environment before importing pdfjs-dist
-  if (typeof globalThis.DOMMatrix === 'undefined') {
-    // Simple DOMMatrix polyfill
-    class DOMMatrixPolyfill {
-      a: number = 1
-      b: number = 0
-      c: number = 0
-      d: number = 1
-      e: number = 0
-      f: number = 0
-      m11: number = 1
-      m12: number = 0
-      m21: number = 0
-      m22: number = 1
-      m41: number = 0
-      m42: number = 0
-      
-      constructor(init?: string | number[]) {
-        if (init) {
-          if (typeof init === 'string') {
-            const values = init.match(/[\d.-]+/g)?.map(Number) || []
-            if (values.length >= 6) {
-              this.a = this.m11 = values[0]
-              this.b = this.m12 = values[1]
-              this.c = this.m21 = values[2]
-              this.d = this.m22 = values[3]
-              this.e = this.m41 = values[4]
-              this.f = this.m42 = values[5]
-            }
-          } else if (Array.isArray(init) && init.length >= 6) {
-            this.a = this.m11 = init[0]
-            this.b = this.m12 = init[1]
-            this.c = this.m21 = init[2]
-            this.d = this.m22 = init[3]
-            this.e = this.m41 = init[4]
-            this.f = this.m42 = init[5]
+// Setup DOMMatrix polyfill once at module level
+if (typeof globalThis.DOMMatrix === 'undefined') {
+  class DOMMatrixPolyfill {
+    a: number = 1
+    b: number = 0
+    c: number = 0
+    d: number = 1
+    e: number = 0
+    f: number = 0
+    m11: number = 1
+    m12: number = 0
+    m21: number = 0
+    m22: number = 1
+    m41: number = 0
+    m42: number = 0
+    
+    constructor(init?: string | number[]) {
+      if (init) {
+        if (typeof init === 'string') {
+          const values = init.match(/[\d.-]+/g)?.map(Number) || []
+          if (values.length >= 6) {
+            this.a = this.m11 = values[0]
+            this.b = this.m12 = values[1]
+            this.c = this.m21 = values[2]
+            this.d = this.m22 = values[3]
+            this.e = this.m41 = values[4]
+            this.f = this.m42 = values[5]
           }
+        } else if (Array.isArray(init) && init.length >= 6) {
+          this.a = this.m11 = init[0]
+          this.b = this.m12 = init[1]
+          this.c = this.m21 = init[2]
+          this.d = this.m22 = init[3]
+          this.e = this.m41 = init[4]
+          this.f = this.m42 = init[5]
         }
-      }
-      
-      multiply(other: DOMMatrixPolyfill): DOMMatrixPolyfill {
-        const result = new DOMMatrixPolyfill()
-        result.a = result.m11 = this.a * other.a + this.c * other.b
-        result.b = result.m12 = this.b * other.a + this.d * other.b
-        result.c = result.m21 = this.a * other.c + this.c * other.d
-        result.d = result.m22 = this.b * other.c + this.d * other.d
-        result.e = result.m41 = this.a * other.e + this.c * other.f + this.e
-        result.f = result.m42 = this.b * other.e + this.d * other.f + this.f
-        return result
-      }
-      
-      translate(x: number, y: number): DOMMatrixPolyfill {
-        return this.multiply(new DOMMatrixPolyfill([1, 0, 0, 1, x, y]))
-      }
-      
-      scale(x: number, y?: number): DOMMatrixPolyfill {
-        return this.multiply(new DOMMatrixPolyfill([x, 0, 0, y ?? x, 0, 0]))
       }
     }
     
-    // @ts-ignore
-    globalThis.DOMMatrix = DOMMatrixPolyfill
-    // @ts-ignore
-    globalThis.DOMMatrixReadOnly = DOMMatrixPolyfill
+    multiply(other: DOMMatrixPolyfill): DOMMatrixPolyfill {
+      const result = new DOMMatrixPolyfill()
+      result.a = result.m11 = this.a * other.a + this.c * other.b
+      result.b = result.m12 = this.b * other.a + this.d * other.b
+      result.c = result.m21 = this.a * other.c + this.c * other.d
+      result.d = result.m22 = this.b * other.c + this.d * other.d
+      result.e = result.m41 = this.a * other.e + this.c * other.f + this.e
+      result.f = result.m42 = this.b * other.e + this.d * other.f + this.f
+      return result
+    }
+    
+    translate(x: number, y: number): DOMMatrixPolyfill {
+      return this.multiply(new DOMMatrixPolyfill([1, 0, 0, 1, x, y]))
+    }
+    
+    scale(x: number, y?: number): DOMMatrixPolyfill {
+      return this.multiply(new DOMMatrixPolyfill([x, 0, 0, y ?? x, 0, 0]))
+    }
   }
   
-  // Use pdf-parse with DOMMatrix polyfill (simpler for Node.js)
-  const pdf = require('pdf-parse')
-  const data = await pdf(buffer)
-  return data.text
+  // @ts-ignore
+  globalThis.DOMMatrix = DOMMatrixPolyfill
+  // @ts-ignore
+  globalThis.DOMMatrixReadOnly = DOMMatrixPolyfill
+}
+
+export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
+  try {
+    // Lazy load pdf-parse to avoid issues with Next.js bundling
+    const pdfParseModule = require('pdf-parse')
+    const pdfParse = typeof pdfParseModule === 'function' 
+      ? pdfParseModule 
+      : (pdfParseModule.default || pdfParseModule)
+    
+    if (typeof pdfParse !== 'function') {
+      throw new Error(`pdf-parse is not a function. Got: ${typeof pdfParseModule}, keys: ${Object.keys(pdfParseModule || {}).join(', ')}`)
+    }
+    
+    // Ensure buffer is a Buffer instance
+    const pdfBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
+    const data = await pdfParse(pdfBuffer)
+    return data.text || ''
+  } catch (error: any) {
+    console.error('Error in extractTextFromPDF:', error)
+    throw new Error(`Failed to extract text from PDF: ${error.message || error}`)
+  }
 }
 
 export async function extractTextFromDOCX(buffer: Buffer): Promise<string> {
