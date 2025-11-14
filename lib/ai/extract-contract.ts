@@ -157,20 +157,22 @@ if (typeof globalThis.DOMMatrix === 'undefined') {
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
   try {
-    // Lazy load pdf-parse to avoid issues with Next.js bundling
+    // pdf-parse exports an object with PDFParse as a class
     const pdfParseModule = require('pdf-parse')
-    const pdfParse = typeof pdfParseModule === 'function' 
-      ? pdfParseModule 
-      : (pdfParseModule.default || pdfParseModule)
+    const PDFParse = pdfParseModule.PDFParse
     
-    if (typeof pdfParse !== 'function') {
-      throw new Error(`pdf-parse is not a function. Got: ${typeof pdfParseModule}, keys: ${Object.keys(pdfParseModule || {}).join(', ')}`)
+    if (!PDFParse || typeof PDFParse !== 'function') {
+      throw new Error(`PDFParse class not found. Keys: ${Object.keys(pdfParseModule || {}).join(', ')}`)
     }
     
     // Ensure buffer is a Buffer instance
     const pdfBuffer = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer)
-    const data = await pdfParse(pdfBuffer)
-    return data.text || ''
+    
+    // Create an instance of PDFParse and extract text
+    const parser = new PDFParse({ data: pdfBuffer })
+    const result = await parser.parse()
+    
+    return result.text || ''
   } catch (error: any) {
     console.error('Error in extractTextFromPDF:', error)
     throw new Error(`Failed to extract text from PDF: ${error.message || error}`)
