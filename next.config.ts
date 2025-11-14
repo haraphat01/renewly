@@ -17,8 +17,11 @@ const nextConfig: NextConfig = {
   // Webpack configuration for PDF parsing
   webpack: (config, { isServer }) => {
     if (isServer) {
-      // Ignore canvas module on server (used by pdf-parse but not needed)
+      // Ignore canvas module on server (not needed for PDF parsing)
       config.resolve.alias.canvas = false;
+      
+      // Disable worker for pdfjs-dist in serverless
+      config.resolve.alias['pdfjs-dist/build/pdf.worker.entry'] = false;
     }
 
     return config;
