@@ -156,42 +156,41 @@ if (typeof globalThis.DOMMatrix === 'undefined') {
 }
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  try {
-    // Use pdfjs-dist directly (v3 is stable for serverless)
-    const pdfjsLib = await import('pdfjs-dist')
-    
-    // Disable worker for serverless environment
-    pdfjsLib.GlobalWorkerOptions.workerSrc = ''
-    
-    // Ensure buffer is a Uint8Array
-    const data = new Uint8Array(buffer)
-    
-    // Load PDF document
-    const loadingTask = pdfjsLib.getDocument({ 
-      data, 
-      useWorkerFetch: false, 
-      isEvalSupported: false, 
-      useSystemFonts: true 
-    })
-    const pdf = await loadingTask.promise
-    
-    // Extract text from all pages
-    const textPromises = []
-    for (let i = 1; i <= pdf.numPages; i++) {
-      textPromises.push(
-        pdf.getPage(i).then(async (page) => {
-          const textContent = await page.getTextContent()
-          return textContent.items.map((item: any) => item.str).join(' ')
-        })
-      )
+  return new Promise((resolve, reject) => {
+    try {
+      // Use pdf2json - pure Node.js, no workers needed
+      const PDFParser = require('pdf2json')
+      const pdfParser = new PDFParser()
+      
+      // Set up event handlers
+      pdfParser.on('pdfParser_dataError', (errData: any) => {
+        reject(new Error(errData.parserError || 'PDF parsing error'))
+      })
+      
+      pdfParser.on('pdfParser_dataReady', (pdfData: any) => {
+        try {
+          // Extract text from all pages
+          const text = pdfData.Pages.map((page: any) => {
+            return page.Texts.map((textItem: any) => {
+              return textItem.R.map((r: any) => 
+                decodeURIComponent(r.T)
+              ).join('')
+            }).join(' ')
+          }).join('\n\n')
+          
+          resolve(text)
+        } catch (err: any) {
+          reject(new Error(`Failed to extract text: ${err.message}`))
+        }
+      })
+      
+      // Parse the buffer
+      pdfParser.parseBuffer(buffer)
+    } catch (error: any) {
+      console.error('Error in extractTextFromPDF:', error)
+      reject(new Error(`Failed to extract text from PDF: ${error.message || error}`))
     }
-    
-    const texts = await Promise.all(textPromises)
-    return texts.join('\n\n')
-  } catch (error: any) {
-    console.error('Error in extractTextFromPDF:', error)
-    throw new Error(`Failed to extract text from PDF: ${error.message || error}`)
-  }
+  })
 }
 
 export async function extractTextFromDOCX(buffer: Buffer): Promise<string> {
